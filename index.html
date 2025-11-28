@@ -623,47 +623,51 @@ body.menu-open .nav-toggle__bar:nth-child(3){
     </section>
 
     <!-- HERO ALL-IN-ONE (banners apilados, clickeables a WhatsApp) -->
-    <section class="section-block reveal">
-      <!-- Promo Joker / tiros gratis -->
-      <a
-        class="promo-banner"
-        href="https://wa.me/5492617490475?text=Hola%2C%20quiero%20activar%20PROMO%20JOKER"
-        target="_blank"
-        rel="noopener"
-      >
-        <img src="media/promos/hero-promociones.webp" alt="Promo Tiros Gratis">
-      </a>
+   <section class="section-block reveal">
+  <!-- Promo Joker / tiros gratis -->
+  <a
+    class="promo-banner js-wpp"
+    data-wpp-text="Hola, quiero activar PROMO JOKER"
+    href="#"
+    target="_blank"
+    rel="noopener"
+  >
+    <img src="media/promos/hero-promociones.webp" alt="Promo Tiros Gratis">
+  </a>
 
-      <!-- Promo Referidos -->
-      <a
-        class="promo-banner"
-        href="https://wa.me/5492617490475?text=Hola%2C%20quiero%20activar%20PROMO%20REFERIDOS"
-        target="_blank"
-        rel="noopener"
-      >
-        <img src="media/promos/hero-2.webp" alt="Promo Referidos">
-      </a>
+  <!-- Promo Referidos -->
+  <a
+    class="promo-banner js-wpp"
+    data-wpp-text="Hola, quiero activar PROMO REFERIDOS"
+    href="#"
+    target="_blank"
+    rel="noopener"
+  >
+    <img src="media/promos/hero-2.webp" alt="Promo Referidos">
+  </a>
 
-      <!-- Promo Primer Depósito -->
-      <a
-        class="promo-banner"
-        href="https://wa.me/5492617490475?text=Hola%2C%20quiero%20activar%20PROMO%20PRIMER%20DEPOSITO"
-        target="_blank"
-        rel="noopener"
-      >
-        <img src="media/promos/slide-primer-deposito.webp" alt="Promo Primer Depósito">
-      </a>
+  <!-- Promo Primer Depósito -->
+  <a
+    class="promo-banner js-wpp"
+    data-wpp-text="Hola, quiero activar PROMO PRIMER DEPOSITO"
+    href="#"
+    target="_blank"
+    rel="noopener"
+  >
+    <img src="media/promos/slide-primer-deposito.webp" alt="Promo Primer Depósito">
+  </a>
 
-      <!-- Unite al canal -->
-      <a
-        class="promo-banner"
-        href="https://whatsapp.com/channel/0029Vb3o9ai77qVPdzOk0w3o"
-        target="_blank"
-        rel="noopener"
-      >
-        <img src="media/promos/hero-3.webp" alt="Unite al Canal">
-      </a>
-    </section>
+  <!-- Unite al canal (este NO depende del número, lo dejamos igual) -->
+  <a
+    class="promo-banner"
+    href="https://whatsapp.com/channel/0029Vb3o9ai77qVPdzOk0w3o"
+    target="_blank"
+    rel="noopener"
+  >
+    <img src="media/promos/hero-3.webp" alt="Unite al Canal">
+  </a>
+</section>
+
 
     <!-- BLOQUE ¿QUÉ HAGO PRIMERO? -->
     <section class="first-steps reveal" aria-label="Qué hacer primero">
@@ -880,13 +884,14 @@ body.menu-open .nav-toggle__bar:nth-child(3){
       </a>
 
       <!-- WhatsApp -->
-      <a class="contact-fab__item" href="https://wa.me/5492617490475" target="_blank" rel="noopener">
-        <span class="contact-fab__item-icon">
-          <ion-icon name="logo-whatsapp"></ion-icon>
-        </span>
-        <span class="contact-fab__item-label">WhatsApp</span>
-      </a>
-    </div>
+   <!-- WhatsApp -->
+<a class="contact-fab__item js-wpp" data-wpp-text="" href="#" target="_blank" rel="noopener">
+  <span class="contact-fab__item-icon">
+    <ion-icon name="logo-whatsapp"></ion-icon>
+  </span>
+  <span class="contact-fab__item-label">WhatsApp</span>
+</a>
+
 
     <button class="contact-fab__btn" type="button" aria-expanded="false" aria-label="Abrir menú de contacto">
       <ion-icon name="chatbubbles-outline"></ion-icon>
@@ -900,12 +905,26 @@ body.menu-open .nav-toggle__bar:nth-child(3){
         <section class="bp-col">
           <h3 class="bp-brand">BPLAY</h3>
           <p class="bp-foot-text">Te ayudamos a resolver todo en 1 minuto.</p>
-          <ul class="bp-contact">
-            <li><a href="https://wa.me/5492617490475" class="bp-contact__item">💬 WhatsApp</a></li>
-            <li><a href="mailto:atencionbplayperg@gmail.com" class="bp-contact__item">✉️ atencionbplayperg@gmail.com</a></li>
-            <li>  <a href="tel:+5492617490475" class="bp-contact__item">  📞 <span data-role="wpp-visible-num">261 7490475</span> </a></li>
-          </ul>
+<ul class="bp-contact">
+  <li>
+    <a href="#" class="bp-contact__item js-wpp" data-wpp-text="">
+      💬 WhatsApp
+    </a>
+  </li>
+  <li>
+    <a href="mailto:atencionbplayperg@gmail.com" class="bp-contact__item">
+      ✉️ atencionbplayperg@gmail.com
+    </a>
+  </li>
+  <li>
+    <a href="tel:+5492617490475" class="bp-contact__item" data-wpp-tel="1">
+      📞 <span data-role="wpp-visible-num">261 7490475</span>
+    </a>
+  </li>
+</ul>
+
         </section>
+        
         
         <section class="bp-col" aria-labelledby="t-pagos">
           <h4 id="t-pagos" class="bp-title">Métodos de pago</h4>
