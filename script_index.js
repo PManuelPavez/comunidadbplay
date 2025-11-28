@@ -137,74 +137,74 @@ function configurarLinksDinamicos() {
     setJurisdictionLinks(null);
   }
 }
-// === WhatsApp dinámico desde Supabase ===
+// === WhatsApp dinámico desde tabla contenido_dinamico ===
 async function configurarWhatsappDinamico() {
   try {
     const { data, error } = await supabase
-      .from('config')      // 👈 CAMBIÁ 'config' por el nombre real de tu tabla
-      .select('whatsapp_num')
-      .limit(1)
+      .from('contenido_dinamico')     // 👈 TU TABLA REAL
+      .select('valor')
+      .eq('clave', 'whatsapp_num')    // 👈 TU CLAVE REAL
       .maybeSingle();
 
     if (error) {
       console.error('Error leyendo whatsapp_num desde Supabase:', error);
       return;
     }
-    if (!data || !data.whatsapp_num) {
-      console.warn('No se encontró whatsapp_num en la tabla');
+
+    if (!data || !data.valor) {
+      console.warn('No se encontró whatsapp_num en contenido_dinamico');
       return;
     }
 
-    // Lo que venga de Supabase, lo limpiamos a solo dígitos
-    const num = String(data.whatsapp_num).replace(/\D/g, '');
+    const num = String(data.valor).replace(/\D/g, ''); // solo dígitos
     if (!num) {
-      console.warn('whatsapp_num vacío o inválido');
+      console.warn('whatsapp_num vacío o inválido:', data.valor);
       return;
     }
 
-    // wa.me quiere el número completo, ej: 5492617490475
+    console.log('✅ whatsapp_num desde Supabase:', num);
+
     const baseWa = `https://wa.me/${num}`;
 
-    // 1) Reemplazamos todos los links que van a wa.me, manteniendo el ?text=
+    // 1) Actualizar TODOS los links a wa.me, manteniendo el ?text=...
     document.querySelectorAll('a[href*="wa.me"]').forEach(link => {
       try {
         const url = new URL(link.href);
-        const search = url.search; // conserva ?text=...
-        link.href = baseWa + search;
+        const query = url.search; // conserva ?text=...
+        link.href = baseWa + query;
       } catch (e) {
         link.href = baseWa;
       }
     });
 
-    // 2) Reemplazamos todos los tel:+...
+    // 2) Actualizar TODOS los tel:+...
     document.querySelectorAll('a[href^="tel:+"]').forEach(link => {
       link.href = `tel:+${num}`;
     });
 
-    // 3) Texto visible del número (opcional, si lo marcás en el HTML)
+    // 3) (opcional) actualizar texto visible si lo marcás con data-role
     document.querySelectorAll('[data-role="wpp-visible-num"]').forEach(el => {
       el.textContent = formatearNumeroLindo(num);
     });
 
-    console.log('✅ WhatsApp actualizado dinámicamente:', num);
   } catch (e) {
     console.error('Excepción en configurarWhatsappDinamico:', e);
   }
 }
 
 function formatearNumeroLindo(num) {
-  // Si guardás 5492617490475 → mostramos "261 7490475"
-  const sinPrefijo = num.replace(/^549/, ''); // si no usás 9, sacá solo 54
+  // Si guardás 5492617490523 → mostramos "261 7490523"
+  const sinPrefijo = num.replace(/^549/, ''); // si no usás 9, ajustá a /^54/
   return sinPrefijo.replace(/^(\d{3})(\d+)/, '$1 $2');
 }
 
-
+// === Init ===
 // === Init ===
 // === Init ===
 window.addEventListener("DOMContentLoaded", () => {
   iniciarSliderHero();
   iniciarReloj();
   configurarLinksDinamicos();
-  configurarWhatsappDinamico(); // 👈 sumamos esta línea
+  configurarWhatsappDinamico();   // 👈 agregado
 });
 
