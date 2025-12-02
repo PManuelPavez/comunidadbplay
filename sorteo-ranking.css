@@ -1,0 +1,186 @@
+/* ===== Tabla de puntos Sorteo Navideño ===== */
+
+.sorteo-ranking {
+  margin-top: 32px;
+  padding: 20px 18px;
+  border-radius: 18px;
+  background: rgba(15, 23, 42, 0.9);
+  border: 1px solid rgba(52, 211, 153, 0.25);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.6);
+}
+
+.sorteo-ranking__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.sorteo-ranking__title {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.sorteo-ranking__subtitle {
+  font-size: 13px;
+  color: #9ca3af;
+  max-width: 420px;
+}
+
+.sorteo-ranking__meta {
+  font-size: 12px;
+  color: #9ca3af;
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 160px;
+}
+
+.sorteo-ranking__last-update {
+  white-space: nowrap;
+}
+
+.sorteo-ranking__reload {
+  align-self: flex-end;
+  border-radius: 999px;
+  border: 1px solid rgba(52, 211, 153, 0.9);
+  background: rgba(6, 95, 70, 0.4);
+  color: #d1fae5;
+  font-size: 11px;
+  padding: 4px 10px;
+  cursor: pointer;
+}
+
+.sorteo-ranking__reload:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.sorteo-ranking__table-wrap {
+  margin-top: 8px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(31, 41, 55, 0.9);
+  background: radial-gradient(circle at top left, rgba(34, 197, 94, 0.08), transparent 65%);
+}
+
+.sorteo-ranking__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.sorteo-ranking__table thead {
+  background: linear-gradient(
+    to right,
+    rgba(15, 23, 42, 0.95),
+    rgba(6, 78, 59, 0.9)
+  );
+}
+
+.sorteo-ranking__table th,
+.sorteo-ranking__table td {
+  padding: 8px 10px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.sorteo-ranking__table th {
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #d1fae5;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.9);
+}
+
+.sorteo-ranking__table td {
+  border-bottom: 1px solid rgba(31, 41, 55, 0.85);
+  color: #e5e7eb;
+}
+
+.sorteo-ranking__table tbody tr:nth-child(odd) {
+  background: rgba(3, 7, 18, 0.85);
+}
+
+.sorteo-ranking__table tbody tr:nth-child(even) {
+  background: rgba(15, 23, 42, 0.8);
+}
+
+.sorteo-ranking__table tbody tr:hover {
+  background: rgba(22, 163, 74, 0.2);
+  transition: background 0.15s ease-out;
+}
+
+.sorteo-ranking__pos {
+  font-weight: 700;
+  font-size: 12px;
+  color: #a7f3d0;
+}
+
+.sorteo-ranking__alias {
+  font-weight: 600;
+}
+
+.sorteo-ranking__provincia {
+  font-size: 12px;
+  opacity: 0.9;
+}
+
+.sorteo-ranking__puntos {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+  text-align: right;
+}
+
+.sorteo-ranking__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  padding: 2px 7px;
+  border-radius: 999px;
+  border: 1px solid rgba(52, 211, 153, 0.9);
+  color: #a7f3d0;
+  background: rgba(6, 95, 70, 0.85);
+  margin-left: 6px;
+}
+
+.sorteo-ranking__badge--gold::before {
+  content: "🥇";
+}
+
+.sorteo-ranking__badge--silver::before {
+  content: "🥈";
+}
+
+.sorteo-ranking__badge--bronze::before {
+  content: "🥉";
+}
+
+.sorteo-ranking__empty {
+  padding: 14px 10px;
+  text-align: center;
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+@media (max-width: 768px) {
+  .sorteo-ranking {
+    padding: 18px 14px;
+  }
+
+  .sorteo-ranking__head {
+    align-items: flex-start;
+  }
+
+  .sorteo-ranking__meta {
+    align-items: flex-start;
+    text-align: left;
+  }
+}
+/* ===== Fin Tabla de puntos Sorteo Navideño ===== */

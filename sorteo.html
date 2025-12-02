@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sorteo Navideño | Bplay</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400..800&display=swap" rel="stylesheet">
+  <!-- Estilos globales del sitio -->
+  <link rel="stylesheet" href="styles.css">
+  <!-- Estilos de la tabla de puntos -->
+  <link rel="stylesheet" href="sorteo-ranking.css">
+</head>
+
+<body class="sorteos-page">
+  <!-- Fondo global -->
+  <div class="bg-frame" aria-hidden="true"></div>
+
+  <!-- Loader suave -->
+  <div id="sorteoLoader" class="sorteo-loader" aria-hidden="true">
+    <div class="sorteo-loader__inner">
+      <img src="assets/brand/bplay-logo.png" alt="Bplay" class="sorteo-loader__logo">
+      <p>Preparando tu entrada al sorteo navideño…</p>
+    </div>
+  </div>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="nav container">
+      <a href="/" class="brand brand--left">
+        <img src="assets/brand/bplay-logo.png" class="brand-logo" alt="BPLAY">
+      </a>
+
+      <nav class="nav-left nav-tabs">
+        <a class="nav-link" href="/">Inicio</a>
+        <a class="nav-link is-active" href="sorteo.html">Sorteos</a>
+        <a class="nav-link" href="promos.html">Promos</a>
+        <span class="nav-ink"></span>
+      </nav>
+
+      <div class="header-info">
+        <span id="clock">--:--</span>
+        <span id="geo">Argentina</span>
+      </div>
+
+      <button class="nav-toggle" aria-label="Abrir menú" aria-expanded="false">
+        <span class="nav-toggle__bar"></span>
+        <span class="nav-toggle__bar"></span>
+        <span class="nav-toggle__bar"></span>
+      </button>
+    </div>
+
+    <nav class="mobile-menu" id="mobileMenu" hidden>
+      <ul>
+        <li><a href="/">Inicio</a></li>
+        <li><a href="sorteo.html" class="is-active">Sorteos</a></li>
+        <li><a href="promos.html">Promos</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="container page-narrow sorteos-main">
+    <!-- HERO SORTEO NAVIDEÑO -->
+    <section
+      class="sorteo-hero"
+      aria-labelledby="sorteo-title"
+      data-sorteo-slug="sorteo-navideno-2025">
+      <!-- Imagen del sorteo (izquierda) -->
+      <div class="sorteo-hero__img">
+        <img
+          id="sorteoHeroImg"
+          src="media/promos/slide-sorteos.webp"
+          alt="Sorteo Navideño Bplay"
+          loading="lazy">
+      </div>
+
+      <!-- Info + premio + CTA (derecha) -->
+      <div class="sorteo-hero__info">
+        <p class="sorteo-kicker">SORTEO NAVIDEÑO</p>
+
+        <div class="sorteo-prizes">
+          <h1 class="sorteo-title" id="sorteo-title">
+            Sorteo Navideño Bplay
+          </h1>
+
+          <div class="sorteo-prizes-grid">
+            <article class="prize-card prize-card--gold">
+              <span class="prize-rank">Premio único</span>
+              <span class="prize-amount" id="premioOro">$100.000</span>
+            </article>
+          </div>
+        </div>
+
+        <!-- Contadores -->
+        <div class="sorteo-counts">
+          <!-- Cuenta regresiva hasta Navidad -->
+          <div
+            id="drawCountdown"
+            class="sorteo-countdown"
+            data-end="2025-12-24T23:59:00-03:00">
+            <span class="cd-label">Cierre del ranking</span>
+            <span class="cd-value" id="cdValue">--d --h --m</span>
+          </div>
+
+          <!-- Opcional: cupos, si querés mantener presión suave -->
+          <div
+            id="slots"
+            class="sorteo-slots"
+            data-total="200"
+            data-min="150">
+            <div class="slots-top">
+              <span class="slots-label">Jugadores activos</span>
+              <span class="slots-num">
+                <span id="slotsCurrent">150</span> / 200
+              </span>
+            </div>
+            <div class="slots-bar">
+              <div class="slots-bar-fill" id="slotsFill">
+                <span id="slotsFillText">150 / 200</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CTA principal a WhatsApp -->
+        <div class="sorteo-cta-row sorteos-wa-row--top">
+          <a
+            href="https://wa.me/5492617490475?text=Hola%2C%20quiero%20participar%20del%20SORTEO%20NAVIDE%C3%91O%20de%20Bplay"
+            target="_blank"
+            rel="noopener"
+            class="btn whatsapp sorteos-wa-main">
+            🎄 ¡QUIERO SUMAR PUNTOS!
+          </a>
+        </div>
+
+        <!-- Cómo participar (adaptado a tabla de puntos) -->
+        <ul class="sorteo-steps">
+          <li>Escribinos por WhatsApp con la palabra <strong>"NAVIDAD"</strong>.</li>
+          <li>Jugá en Bplay durante la promo navideña y empezás a sumar <strong>puntos</strong>.</li>
+          <li>La tabla se actualiza y el top del ranking participa por los <strong>$100.000</strong>.</li>
+        </ul>
+
+        <p class="sorteo-legal">
+          Promoción válida para usuarios registrados y verificados, mayores de 18 años.
+          Válido para Argentina según T&amp;C de Bplay. Juego responsable.
+        </p>
+      </div>
+    </section>
+
+    <!-- TABLA DE PUNTOS · SORTEO NAVIDEÑO -->
+    <section class="sorteo-ranking" aria-labelledby="ranking-title">
+      <div class="sorteo-ranking__head">
+        <div>
+          <p class="sorteo-kicker">TABLA DE PUNTOS</p>
+          <h2 id="ranking-title" class="sorteo-ranking__title">
+            Ranking de puntos · Sorteo Navideño
+          </h2>
+          <p class="sorteo-ranking__subtitle">
+            El top del ranking participa por el premio único de <strong>$100.000</strong>.
+          </p>
+        </div>
+        <div class="sorteo-ranking__meta">
+          <span id="rankingLastUpdate" class="sorteo-ranking__last-update">
+            Última actualización: –
+          </span>
+          <button
+            id="rankingReloadBtn"
+            type="button"
+            class="sorteo-ranking__reload">
+            ↻ Actualizar tabla
+          </button>
+        </div>
+      </div>
+
+      <div class="sorteo-ranking__table-wrap">
+        <table class="sorteo-ranking__table">
+          <thead>
+            <tr>
+              <th style="width:1%;">#</th>
+              <th>Alias</th>
+              <th>Provincia</th>
+              <th style="text-align:right;">Puntos</th>
+            </tr>
+          </thead>
+          <tbody id="rankingBody">
+            <tr>
+              <td colspan="4" class="sorteo-ranking__empty">
+                Cargando ranking desde el panel de Bplay…
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bp-footer">
+    <div class="bp-footer__bottom">
+      <div class="container bp-bottom__row">
+        <p class="bp-copy">© 2025 Bplay. Todos los derechos reservados.</p>
+        <ul class="bp-legal-mini">
+          <li><a href="/terminos">Términos</a></li>
+          <li><a href="/politica-privacidad">Privacidad</a></li>
+          <li><a href="/cookies">Cookies</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <!-- FAB global -->
+  <div class="fab" data-fab>
+    <button class="fab__main" aria-label="Contactos"><span>+</span></button>
+    <a
+      class="fab__item"
+      href="https://wa.me/5492617490475?text=Hola%2C%20tengo%20una%20consulta%20sobre%20Bplay"
+      target="_blank"
+      rel="noopener">WA</a>
+    <a
+      class="fab__item"
+      href="https://t.me/tu_canal"
+      target="_blank"
+      rel="noopener">TG</a>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.48.0/dist/umd/supabase.min.js"></script>
+  <script src="app.js"></script>
+  <script src="sorteos.js"></script>
+  <script src="sorteo-ranking.js"></script>
+</body>
+</html>
