@@ -184,3 +184,33 @@
   }
 }
 /* ===== Fin Tabla de puntos Sorteo Navideño ===== */
+/* ==== FIX MOBILE: alias muy largos (emails) ==== */
+
+@media (max-width: 640px) {
+  /* Que la tabla pueda scrollear si algo igual se pasa */
+  .sorteo-ranking__table-wrap {
+    overflow-x: auto;
+  }
+
+  .sorteo-ranking__table {
+    min-width: 100%;
+  }
+
+  /* Alias: límite de ancho + puntos siempre visibles */
+  .sorteo-ranking__alias {
+    max-width: 140px;          /* ajustá este número si querés más/menos texto */
+    overflow: hidden;
+    text-overflow: ellipsis;   /* agrega "..." cuando el alias es muy largo */
+  }
+
+  /* Un poquito más compacta la tabla en mobile */
+  .sorteo-ranking__table th,
+  .sorteo-ranking__table td {
+    padding: 6px 8px;
+    font-size: 12px;
+  }
+
+  .sorteo-ranking__puntos {
+    font-size: 12px;
+  }
+}
