@@ -130,6 +130,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   await actualizarCBU(provincia);
 
   if (provincia) trackClick("visita", provincia);
+  
+  configurarBotonCopiar();
 });
 
 /****************************************************
@@ -140,5 +142,55 @@ if (sel) {
   sel.addEventListener("change", () => {
     const value = sel.value || null;
     actualizarCBU(value);
+  });
+}
+
+/****************************************************
+ * COPIAR CBU (COMPATIBLE MÓVILES)
+ ****************************************************/
+function seleccionarTexto(texto) {
+  const temp = document.createElement("textarea");
+  temp.value = texto;
+  temp.setAttribute("readonly", "");
+  temp.style.position = "absolute";
+  temp.style.left = "-9999px";
+  document.body.appendChild(temp);
+  temp.select();
+  temp.setSelectionRange(0, temp.value.length);
+  const ok = document.execCommand("copy");
+  document.body.removeChild(temp);
+  return ok;
+}
+
+async function copiarTexto(texto) {
+  if (navigator.clipboard?.writeText) {
+    try {
+      await navigator.clipboard.writeText(texto);
+      return true;
+    } catch {
+      return seleccionarTexto(texto);
+    }
+  }
+  return seleccionarTexto(texto);
+}
+
+function configurarBotonCopiar() {
+  document.addEventListener("click", async (e) => {
+    const btn = e.target.closest("[data-copy]");
+    if (!btn) return;
+    const target = document.querySelector(btn.getAttribute("data-copy"));
+    if (!target) return;
+
+    const texto = target.textContent.trim();
+    if (!texto || texto === "—") return;
+
+    const ok = await copiarTexto(texto);
+    if (ok) {
+      const original = btn.textContent;
+      btn.textContent = "Copiado ✓";
+      setTimeout(() => {
+        btn.textContent = original;
+      }, 1500);
+    }
   });
 }
