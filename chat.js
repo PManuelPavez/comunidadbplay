@@ -94,6 +94,17 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function goToStep(step) {
+    const chat = document.getElementById("chat");
+
+// activar modo inicio
+if (step === "start") {
+    if (step === "start") {
+  messagesDiv.innerHTML = "";
+}
+  chat.classList.add("start-mode");
+} else {
+  chat.classList.remove("start-mode");
+}
     const data = flow[step];
 
     addMessage(data.message, "bot");

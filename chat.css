@@ -154,3 +154,59 @@ button:active {
   background: rgba(255,255,255,0.1);
   border-radius: 10px;
 }
+/* MODO INICIO PRO */
+#chat.start-mode {
+  justify-content: center;
+}
+
+#chat.start-mode #messages {
+  flex: unset;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+/* CONTENEDOR CENTRAL */
+#chat.start-mode #messages::after {
+  content: "";
+}
+
+/* MENSAJE */
+#chat.start-mode .msg.bot {
+  text-align: center;
+  font-size: 16px;
+  max-width: 90%;
+  margin-bottom: 20px;
+}
+
+/* OPCIONES CENTRADAS */
+#chat.start-mode #options {
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px 20px;
+}
+
+/* BOTONES PRO */
+#chat.start-mode button {
+  max-width: 300px;
+  text-align: center;
+  font-size: 15px;
+  padding: 14px;
+  border-radius: 14px;
+  background: white;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+}
+.msg.bot {
+  animation: fadeUp 0.3s ease;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
