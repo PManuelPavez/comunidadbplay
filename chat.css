@@ -1,0 +1,156 @@
+/* RESET */
+body {
+  margin: 0;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: linear-gradient(135deg, #020617, #0f172a, #020617);
+  color: #fff;
+}
+
+/* CONTENEDOR */
+#chat {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  max-width: 420px;
+  margin: auto;
+  backdrop-filter: blur(10px);
+}
+
+/* HEADER */
+#header {
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+#header img {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+}
+
+#header div {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+#header span {
+  font-size: 12px;
+  opacity: 0.6;
+}
+
+/* MENSAJES */
+#messages {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* BURBUJAS */
+.msg {
+  max-width: 80%;
+  padding: 12px 14px;
+  border-radius: 14px;
+  font-size: 14px;
+  line-height: 1.4;
+  white-space: pre-line;
+  animation: fadeIn 0.25s ease;
+}
+
+/* BOT */
+.bot {
+  background: white;
+  color: #0f172a;
+  align-self: flex-start;
+}
+
+/* USER */
+.user {
+  background: #22c55e;
+  color: #022c22;
+  align-self: flex-end;
+}
+
+/* OPCIONES */
+#options {
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* BOTONES */
+button {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  background: white;
+  color: #0f172a;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* HOVER */
+button:hover {
+  transform: translateY(-1px);
+  background: #f1f5f9;
+}
+
+/* CLICK */
+button:active {
+  transform: scale(0.97);
+}
+
+/* WHATSAPP FLOAT */
+#wpp-float {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #25d366;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 26px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+#wpp-float:hover {
+  transform: scale(1.1);
+}
+
+/* ANIMACIONES */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* SCROLL PRO */
+#messages::-webkit-scrollbar {
+  width: 6px;
+}
+
+#messages::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.1);
+  border-radius: 10px;
+}
