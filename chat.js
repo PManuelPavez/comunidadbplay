@@ -82,7 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
         addMessage(opt.label, "user");
 
         if (opt.next === "whatsapp") {
-          window.open("https://wa.me/5491171913526", "_blank");
+          window.open("https://wa.me/5491171845577", "_blank");
           return;
         }
 
