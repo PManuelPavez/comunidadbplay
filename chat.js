@@ -28,130 +28,154 @@ document.addEventListener("DOMContentLoaded", () => {
     // ======================
 
     pba: {
-      message: `
-💳 <b>PROVINCIA DE BUENOS AIRES</b>
+  message: `
+<div class="cbu-card">
+  <div class="cbu-title">💳 PROVINCIA DE BUENOS AIRES</div>
 
-CBU: <span class="cbu">0000061100000000014997</span>
-Alias: PBA.BPLAY.TC
+  <div class="cbu-number">
+    0000061100000000014997
+  </div>
 
-Razón social: BOLDT SA-SG DIGITAL UK HOLDINGS LIMITED UT
-CUIT: 30-71760639-2
-      `,
-      options: [
-        { label: "📋 Copiar CBU", next: "copy_pba" },
-        { label: "📩 Ya transferí", next: "comprobante" },
-        { label: "⬅️ Volver", next: "depositos" }
-      ]
-    },
+  <div class="cbu-data">
+    Alias: PBA.BPLAY.TC<br>
+    CUIT: 30-71760639-2
+  </div>
 
-    cordoba: {
-      message: `
-💳 <b>PROVINCIA DE CÓRDOBA</b>
+  <button class="copy-btn" onclick="copiarCBU('0000061100000000014997', this)">
+    📋 Copiar CBU
+  </button>
 
-CBU: <span class="cbu">0000061100000000025021</span>
-Alias: cordoba.bplay.tc
+  <div class="copy-success"></div>
+</div>
+  `,
+  options: [
+    { label: "📩 Ya transferí", next: "comprobante" },
+    { label: "⬅️ Volver", next: "depositos" }
+  ]
+},
 
-Razón social: BOLDT SA-SG DIGITAL - UT
-CUIT: 30-71766501-1
-      `,
-      options: [
-        { label: "📋 Copiar CBU", next: "copy_cba" },
-        { label: "📩 Ya transferí", next: "comprobante" },
-        { label: "⬅️ Volver", next: "depositos" }
-      ]
-    },
+cordoba: {
+  message: `
+<div class="cbu-card">
+  <div class="cbu-title">💳 PROVINCIA DE CÓRDOBA</div>
 
-    mendoza: {
-      message: `
-💳 <b>MENDOZA</b>
+  <div class="cbu-number">
+    0000061100000000025021
+  </div>
 
-CBU: <span class="cbu">0000061100000000049650</span>
-Alias: mendoza.bplay.tc
+  <div class="cbu-data">
+    Alias: cordoba.bplay.tc<br>
+    CUIT: 30-71766501-1
+  </div>
 
-Razón social: Boldt SA-Fuente Mayor SA UT
-CUIT: 30-71806689-8
-      `,
-      options: [
-        { label: "📋 Copiar CBU", next: "copy_mza" },
-        { label: "📩 Ya transferí", next: "comprobante" },
-        { label: "⬅️ Volver", next: "depositos" }
-      ]
-    },
+  <button class="copy-btn" onclick="copiarCBU('0000061100000000025021', this)">
+    📋 Copiar CBU
+  </button>
 
-    santafe: {
-      message: `
-💳 <b>SANTA FE</b>
+  <div class="copy-success"></div>
+</div>
+  `,
+  options: [
+    { label: "📩 Ya transferí", next: "comprobante" },
+    { label: "⬅️ Volver", next: "depositos" }
+  ]
+},
 
-CBU: <span class="cbu">0000061100000000008387</span>
-Alias: SANTAFE.BPLAY.TC
+mendoza: {
+  message: `
+<div class="cbu-card">
+  <div class="cbu-title">💳 PROVINCIA DE MENDOZA</div>
 
-Razón social: CASINO PUERTO SANTA FE SA
-CUIT: 30-70975366-1
-      `,
-      options: [
-        { label: "📋 Copiar CBU", next: "copy_sf" },
-        { label: "📩 Ya transferí", next: "comprobante" },
-        { label: "⬅️ Volver", next: "depositos" }
-      ]
-    },
+  <div class="cbu-number">
+    0000061100000000049650
+  </div>
 
-    caba: {
-      message: `
-💳 <b>CABA</b>
+  <div class="cbu-data">
+    Alias: mendoza.bplay.tc<br>
+    CUIT: 30-71806689-8
+  </div>
 
-CBU: <span class="cbu">0000061100000000008059</span>
-Alias: CABA.BPLAY.TC
+  <button class="copy-btn" onclick="copiarCBU('0000061100000000049650', this)">
+    📋 Copiar CBU
+  </button>
 
-Razón social: BOLDT SA-B-GAMING SA
-CUIT: 33-71708423-9
-      `,
-      options: [
-        { label: "📋 Copiar CBU", next: "copy_caba" },
-        { label: "📩 Ya transferí", next: "comprobante" },
-        { label: "⬅️ Volver", next: "depositos" }
-      ]
-    },
+  <div class="copy-success"></div>
+</div>
+  `,
+  options: [
+    { label: "📩 Ya transferí", next: "comprobante" },
+    { label: "⬅️ Volver", next: "depositos" }
+  ]
+},
 
-    comprobante: {
-      message: "📩 Enviá el comprobante por WhatsApp para acreditar.",
-      options: [
-        { label: "💬 Enviar comprobante", next: "whatsapp" },
-        { label: "⬅️ Inicio", next: "start" }
-      ]
-    },
+santafe: {
+  message: `
+<div class="cbu-card">
+  <div class="cbu-title">💳 PROVINCIA DE SANTA FE</div>
 
-    retiros: {
-      message: "💸 Los retiros se hacen desde la plataforma.\n⏱ Hasta 24hs",
-      options: [
-        { label: "💬 Ir a WhatsApp", next: "whatsapp" },
-        { label: "⬅️ Volver", next: "start" }
-      ]
-    },
+  <div class="cbu-number">
+    0000061100000000008387
+  </div>
 
-    promos: {
-      message: "🎁 Tenemos promos todos los días 🔥",
-      options: [
-        { label: "💬 Ver promo", next: "whatsapp" },
-        { label: "⬅️ Volver", next: "start" }
-      ]
-    },
+  <div class="cbu-data">
+    Alias: SANTAFE.BPLAY.TC<br>
+    CUIT: 30-70975366-1
+  </div>
 
-    problemas: {
-      message: "⚠️ Escribinos por WhatsApp y te ayudamos",
-      options: [
-        { label: "💬 Ir a WhatsApp", next: "whatsapp" },
-        { label: "⬅️ Volver", next: "start" }
-      ]
-    }
+  <button class="copy-btn" onclick="copiarCBU('0000061100000000008387', this)">
+    📋 Copiar CBU
+  </button>
+
+  <div class="copy-success"></div>
+</div>
+  `,
+  options: [
+    { label: "📩 Ya transferí", next: "comprobante" },
+    { label: "⬅️ Volver", next: "depositos" }
+  ]
+},
+
+caba: {
+  message: `
+<div class="cbu-card">
+  <div class="cbu-title">💳 CABA</div>
+
+  <div class="cbu-number">
+    0000061100000000008059
+  </div>
+
+  <div class="cbu-data">
+    Alias: CABA.BPLAY.TC<br>
+    CUIT: 33-71708423-9
+  </div>
+
+  <button class="copy-btn" onclick="copiarCBU('0000061100000000008059', this)">
+    📋 Copiar CBU
+  </button>
+
+  <div class="copy-success"></div>
+</div>
+  `,
+  options: [
+    { label: "📩 Ya transferí", next: "comprobante" },
+    { label: "⬅️ Volver", next: "depositos" }
+  ]
+},
   };
 
   const messagesDiv = document.getElementById("messages");
   const optionsDiv = document.getElementById("options");
 
-  function copiarCBU(valor) {
-    navigator.clipboard.writeText(valor);
-    alert("CBU copiado ✔️");
-  }
+function copiarCBU(valor, btn) {
+  navigator.clipboard.writeText(valor);
+
+  const feedback = btn.nextElementSibling;
+  feedback.innerText = "✔ Copiado";
+
+  setTimeout(() => {
+    feedback.innerText = "";
+  }, 1500);
+}
 
   function addMessage(text, sender) {
     const div = document.createElement("div");

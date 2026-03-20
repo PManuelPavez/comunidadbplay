@@ -210,3 +210,56 @@ button:active {
     transform: translateY(0);
   }
 }
+/* TARJETA CBU */
+.cbu-card {
+  background: white;
+  color: #0f172a;
+  border-radius: 16px;
+  padding: 16px;
+  margin-top: 10px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+.cbu-title {
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.cbu-number {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin: 10px 0;
+  word-break: break-all;
+}
+
+.cbu-data {
+  font-size: 13px;
+  opacity: 0.8;
+  margin-bottom: 10px;
+}
+
+/* BOTÓN COPIAR */
+.copy-btn {
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  background: #22c55e;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.copy-btn:active {
+  transform: scale(0.97);
+}
+
+/* FEEDBACK */
+.copy-success {
+  margin-top: 8px;
+  font-size: 12px;
+  color: #22c55e;
+  text-align: center;
+}
