@@ -1,43 +1,46 @@
 /* RESET */
 body {
   margin: 0;
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-family: 'Inter', system-ui, sans-serif;
   background: linear-gradient(135deg, #020617, #0f172a, #020617);
   color: #fff;
+  height: 100dvh;
+  overflow: hidden;
 }
 
-/* CONTENEDOR */
+/* APP */
 #chat {
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  max-width: 420px;
-  margin: auto;
-  backdrop-filter: blur(10px);
+  height: 100dvh;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
 }
 
 /* HEADER */
 #header {
-  padding: 16px;
+  padding: 14px 16px;
   display: flex;
   align-items: center;
-  gap: 12px;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
+  gap: 10px;
+  background: rgba(0,0,0,0.3);
+  backdrop-filter: blur(10px);
 }
 
 #header img {
-  width: 42px;
-  height: 42px;
-  border-radius: 12px;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
 }
 
 #header div {
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 600;
 }
 
 #header span {
-  font-size: 12px;
+  font-size: 11px;
   opacity: 0.6;
 }
 
@@ -53,32 +56,32 @@ body {
 
 /* BURBUJAS */
 .msg {
-  max-width: 80%;
+  max-width: 85%;
   padding: 12px 14px;
-  border-radius: 14px;
+  border-radius: 16px;
   font-size: 14px;
   line-height: 1.4;
-  white-space: pre-line;
-  animation: fadeIn 0.25s ease;
+  animation: fadeUp 0.25s ease;
 }
 
 /* BOT */
 .bot {
-  background: white;
+  background: rgba(255,255,255,0.95);
   color: #0f172a;
   align-self: flex-start;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 
 /* USER */
 .user {
-  background: #22c55e;
-  color: #022c22;
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: white;
   align-self: flex-end;
 }
 
 /* OPCIONES */
 #options {
-  padding: 14px;
+  padding: 12px;
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -87,30 +90,105 @@ body {
 /* BOTONES */
 button {
   width: 100%;
-  padding: 12px;
-  border-radius: 12px;
+  padding: 14px;
+  border-radius: 14px;
   border: none;
-  background: white;
+  background: rgba(255,255,255,0.95);
   color: #0f172a;
-  font-size: 14px;
   font-weight: 500;
   text-align: left;
-  cursor: pointer;
-  transition: all 0.2s ease;
+  transition: 0.2s;
 }
 
-/* HOVER */
-button:hover {
-  transform: translateY(-1px);
-  background: #f1f5f9;
-}
-
-/* CLICK */
 button:active {
   transform: scale(0.97);
 }
 
-/* WHATSAPP FLOAT */
+/* CTA IMPORTANTE */
+button.primary {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: white;
+  font-weight: 600;
+}
+
+/* SCROLL */
+#messages::-webkit-scrollbar {
+  width: 4px;
+}
+
+#messages::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.1);
+}
+
+/* START MODE */
+#chat.start-mode {
+  justify-content: center;
+}
+
+#chat.start-mode #messages {
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* TARJETA CBU */
+.cbu-card {
+  background: linear-gradient(135deg, #ffffff, #f1f5f9);
+  color: #0f172a;
+  border-radius: 20px;
+  padding: 18px;
+  margin-top: 10px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.35);
+}
+
+/* TÍTULO */
+.cbu-title {
+  font-weight: 700;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+/* CBU */
+.cbu-number {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  margin: 12px 0;
+  text-align: center;
+  background: #020617;
+  color: #22c55e;
+  padding: 12px;
+  border-radius: 12px;
+}
+
+/* DATOS */
+.cbu-data {
+  font-size: 13px;
+  opacity: 0.75;
+}
+
+/* BOTÓN COPIAR */
+.copy-btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 14px;
+  border: none;
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: white;
+  font-weight: 600;
+  margin-top: 12px;
+}
+
+/* FEEDBACK */
+.copy-success {
+  margin-top: 6px;
+  font-size: 12px;
+  text-align: center;
+  color: #22c55e;
+}
+
+/* WHATSAPP */
 #wpp-float {
   position: fixed;
   bottom: 20px;
@@ -122,19 +200,12 @@ button:active {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
-  font-size: 26px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-  cursor: pointer;
-  transition: 0.2s;
+  font-size: 24px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
 }
 
-#wpp-float:hover {
-  transform: scale(1.1);
-}
-
-/* ANIMACIONES */
-@keyframes fadeIn {
+/* ANIMACIÓN */
+@keyframes fadeUp {
   from {
     opacity: 0;
     transform: translateY(8px);
@@ -143,123 +214,4 @@ button:active {
     opacity: 1;
     transform: translateY(0);
   }
-}
-
-/* SCROLL PRO */
-#messages::-webkit-scrollbar {
-  width: 6px;
-}
-
-#messages::-webkit-scrollbar-thumb {
-  background: rgba(255,255,255,0.1);
-  border-radius: 10px;
-}
-/* MODO INICIO PRO */
-#chat.start-mode {
-  justify-content: center;
-}
-
-#chat.start-mode #messages {
-  flex: unset;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-}
-
-/* CONTENEDOR CENTRAL */
-#chat.start-mode #messages::after {
-  content: "";
-}
-
-/* MENSAJE */
-#chat.start-mode .msg.bot {
-  text-align: center;
-  font-size: 16px;
-  max-width: 90%;
-  margin-bottom: 20px;
-}
-
-/* OPCIONES CENTRADAS */
-#chat.start-mode #options {
-  align-items: center;
-  justify-content: center;
-  padding: 0 20px 20px;
-}
-
-/* BOTONES PRO */
-#chat.start-mode button {
-  max-width: 300px;
-  text-align: center;
-  font-size: 15px;
-  padding: 14px;
-  border-radius: 14px;
-  background: white;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.25);
-}
-.msg.bot {
-  animation: fadeUp 0.3s ease;
-}
-
-@keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-/* TARJETA CBU */
-.cbu-card {
-  background: white;
-  color: #0f172a;
-  border-radius: 16px;
-  padding: 16px;
-  margin-top: 10px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-}
-
-.cbu-title {
-  font-weight: 600;
-  margin-bottom: 10px;
-}
-
-.cbu-number {
-  font-size: 16px;
-  font-weight: 600;
-  letter-spacing: 1px;
-  margin: 10px 0;
-  word-break: break-all;
-}
-
-.cbu-data {
-  font-size: 13px;
-  opacity: 0.8;
-  margin-bottom: 10px;
-}
-
-/* BOTÓN COPIAR */
-.copy-btn {
-  width: 100%;
-  padding: 10px;
-  border-radius: 10px;
-  border: none;
-  background: #22c55e;
-  color: white;
-  font-weight: 600;
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-.copy-btn:active {
-  transform: scale(0.97);
-}
-
-/* FEEDBACK */
-.copy-success {
-  margin-top: 8px;
-  font-size: 12px;
-  color: #22c55e;
-  text-align: center;
 }

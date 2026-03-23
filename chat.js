@@ -1,5 +1,25 @@
 document.addEventListener("DOMContentLoaded", () => {
 
+  function copiarCBU(valor, btn) {
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(valor);
+  } else {
+    const temp = document.createElement("textarea");
+    temp.value = valor;
+    document.body.appendChild(temp);
+    temp.select();
+    document.execCommand("copy");
+    document.body.removeChild(temp);
+  }
+
+  const feedback = btn.nextElementSibling;
+  feedback.innerText = "✔ Copiado";
+
+  setTimeout(() => {
+    feedback.innerText = "";
+  }, 1500);
+}
+
   const flow = {
 
     // ======================
@@ -235,6 +255,9 @@ No necesitás avisar ni enviar comprobante.
       };
 
       optionsDiv.appendChild(btn);
+      if (opt.label.includes("transferencia")) {
+  btn.classList.add("primary");
+}
     });
   }
 
