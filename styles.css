@@ -3852,7 +3852,7 @@ body.raffle-page{ overflow-x:hidden; }
 }
 
 .sorteos-page .sorteo-title::before {
-  content: "🎄";
+  content: "💰";
   font-size: 1.4em;
 }
 
