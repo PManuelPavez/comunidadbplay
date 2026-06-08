@@ -1,0 +1,39 @@
+/* =========================================================
+   PAGES — ajustes específicos de páginas (index / promos / cbu)
+   ========================================================= */
+
+/* Fondo decorativo opcional (compat con markup existente) */
+.bg-frame { display: none; }
+
+.page-title { font-size: var(--fs-xl); margin-block: var(--s-6) var(--s-2); display: flex; align-items: center; gap: var(--s-3); }
+
+/* ---------- INDEX: hero intro ---------- */
+.hero-intro { padding-block: var(--s-6) var(--s-2); }
+.hero-microcopy {
+  text-align: center; font-size: var(--fs-sm);
+  letter-spacing: .12em; text-transform: uppercase; color: var(--c-text-soft);
+}
+.hero-microcopy strong { color: var(--c-green); font-weight: var(--fw-black); }
+
+/* Bloque de banners del hero (contenedor que llena promos.js) */
+.promo-hero { display: grid; gap: var(--s-4); }
+
+/* Tarjeta de pasos */
+.first-steps-card .first-steps-title { font-size: var(--fs-md); margin-bottom: var(--s-3); }
+
+/* Sección VIP (promos + sorteo) */
+.vip-section { display: grid; gap: var(--s-4); grid-template-columns: 1fr; }
+@media (min-width: 768px) { .vip-section { grid-template-columns: 1fr 1fr; } }
+
+/* ---------- PROMOS: panel de detalle ---------- */
+.promo-detail { display: none; }
+.promo-detail.is-active { display: block; }
+.promo-detail h3 { font-size: var(--fs-base); margin-top: var(--s-3); }
+.promo-detail ul { margin: var(--s-2) 0 0 var(--s-5); display: flex; flex-direction: column; gap: 4px; }
+.promo-detail .btn { margin-top: var(--s-4); }
+
+/* ---------- CBU ---------- */
+.cbu-grid { display: grid; gap: var(--s-3); }
+.cbu-line { display: grid; grid-template-columns: 90px 1fr auto; gap: var(--s-3); align-items: center; }
+@media (max-width: 560px) { .cbu-line { grid-template-columns: 1fr auto; } .cbu-line .cbu-line__label { grid-column: 1 / -1; } }
+.cbu-line__label { color: var(--c-text-faint); font-size: var(--fs-sm); }

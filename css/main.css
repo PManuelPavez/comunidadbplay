@@ -1,0 +1,11 @@
+/* =========================================================
+   MAIN — hub de estilos del sitio (sin build).
+   Importa las capas en orden: tokens → base → layout →
+   components → pages → chat. Cada página linkea SOLO este archivo.
+   ========================================================= */
+@import url("tokens.css");
+@import url("base.css");
+@import url("layout.css");
+@import url("components.css");
+@import url("pages.css");
+@import url("chat.css");
