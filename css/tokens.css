@@ -1,0 +1,83 @@
+/* =========================================================
+   TOKENS — Sistema de diseño Comunidad BPLAY
+   Única fuente de verdad: color, espacio, tipografía, radios,
+   sombras, motion y breakpoints. No poner reglas de layout acá.
+   ========================================================= */
+:root {
+  /* ---- Marca / color ---- */
+  --c-bg:            #05070b;   /* fondo base */
+  --c-bg-2:          #0a0e15;   /* fondo elevado */
+  --c-surface:       #0e141d;   /* tarjetas */
+  --c-surface-2:     #131b27;   /* tarjetas elevadas / inputs */
+  --c-line:          rgba(255,255,255,.08);
+  --c-line-strong:   rgba(255,255,255,.16);
+
+  --c-text:          #e7edf5;
+  --c-text-soft:     rgba(231,237,245,.72);
+  --c-text-faint:    rgba(231,237,245,.48);
+
+  --c-green:         #18d26e;   /* acento principal */
+  --c-green-2:       #0ea965;
+  --c-green-ink:     #00150c;   /* texto sobre verde */
+  --c-green-glow:    rgba(24,210,110,.35);
+
+  --c-gold:          #ffd94a;   /* VIP */
+  --c-gold-2:        #ffe784;
+  --c-gold-ink:      #2b2100;
+
+  --c-danger:        #ff5d6c;
+  --c-info:          #5cc8ff;
+
+  /* ---- Gradientes ---- */
+  --g-green:   linear-gradient(180deg, var(--c-green), var(--c-green-2));
+  --g-gold:    linear-gradient(180deg, var(--c-gold-2), var(--c-gold));
+  --g-surface: radial-gradient(120% 160% at 50% 0%, rgba(24,210,110,.10), transparent 60%), var(--c-surface);
+
+  /* ---- Tipografía ---- */
+  --font: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --fs-xs:   .78rem;
+  --fs-sm:   .88rem;
+  --fs-base: 1rem;
+  --fs-md:   1.125rem;
+  --fs-lg:   1.375rem;
+  --fs-xl:   1.75rem;
+  --fs-2xl:  2.25rem;
+  --fw-reg:  400;
+  --fw-med:  500;
+  --fw-semi: 600;
+  --fw-bold: 700;
+  --fw-black: 800;
+  --lh-tight: 1.2;
+  --lh:       1.5;
+
+  /* ---- Espaciado (escala 4px) ---- */
+  --s-1: 4px;  --s-2: 8px;  --s-3: 12px; --s-4: 16px;
+  --s-5: 20px; --s-6: 24px; --s-8: 32px; --s-10: 40px;
+  --s-12: 48px; --s-16: 64px;
+
+  /* ---- Radios ---- */
+  --r-sm: 8px;  --r-md: 12px; --r-lg: 16px; --r-xl: 22px; --r-pill: 999px;
+
+  /* ---- Sombras ---- */
+  --sh-sm: 0 6px 16px rgba(0,0,0,.5);
+  --sh-md: 0 14px 34px rgba(0,0,0,.7);
+  --sh-lg: 0 22px 50px rgba(0,0,0,.85);
+  --sh-glow: 0 0 24px var(--c-green-glow);
+
+  /* ---- Layout ---- */
+  --container: 1080px;
+  --container-narrow: 760px;
+  --header-h: 64px;
+
+  /* ---- Motion ---- */
+  --ease: cubic-bezier(.22,.61,.36,1);
+  --t-fast: .15s var(--ease);
+  --t-med:  .25s var(--ease);
+  --z-header: 800;
+  --z-menu: 900;
+  --z-chat: 980;
+  --z-modal: 1000;
+}
+
+/* Breakpoints de referencia (mobile-first):
+   sm ≥480  ·  md ≥768  ·  lg ≥1024  ·  xl ≥1280  */

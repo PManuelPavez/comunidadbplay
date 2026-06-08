@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Bandeja de soporte | BPLAY</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400..800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+  <!-- LOGIN -->
+  <section class="agent-login card" id="agentLogin">
+    <h1 class="section-title">Bandeja de soporte</h1>
+    <p class="muted">Ingresá con tu cuenta de agente.</p>
+    <form id="loginForm">
+      <input id="loginEmail" type="email" placeholder="Email" required autocomplete="username">
+      <input id="loginPass" type="password" placeholder="Contraseña" required autocomplete="current-password">
+      <button class="btn btn-primary btn-full" type="submit" style="margin-top:var(--s-3)">Ingresar</button>
+      <p id="loginErr" class="muted" style="color:var(--c-danger);margin-top:var(--s-2)"></p>
+    </form>
+  </section>
+
+  <!-- CONSOLA -->
+  <div class="agent-shell" id="agentShell" hidden>
+    <aside class="agent-list">
+      <div class="agent-list__head">
+        <strong>Conversaciones</strong>
+        <button class="btn btn-sm" id="agentLogout">Salir</button>
+      </div>
+      <div class="agent-convos" id="agentConvos"></div>
+    </aside>
+
+    <section class="agent-main">
+      <header class="agent-main__head" id="agentMainHead">
+        <button class="btn btn-sm" id="agentBack">←</button>
+        <span class="muted">Elegí una conversación</span>
+      </header>
+      <div class="agent-thread" id="agentThread">
+        <p class="agent-empty">Seleccioná una conversación para empezar.</p>
+      </div>
+      <form class="chat-input show" id="agentReply" autocomplete="off" hidden>
+        <input id="agentField" placeholder="Escribí tu respuesta…" aria-label="Respuesta">
+        <button type="submit" aria-label="Enviar">➤</button>
+      </form>
+    </section>
+  </div>
+
+  <script type="module" src="js/pages/agente.js"></script>
+</body>
+</html>

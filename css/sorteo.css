@@ -1,0 +1,127 @@
+/* =========================================================
+   SORTEO — estilos propios de la página, sobre el sistema de
+   tokens. Reemplaza los bloques (duplicados) del styles.css
+   legacy y el sorteo-ranking.css. Se carga junto a main.css.
+   ========================================================= */
+
+/* ---------- Loader ---------- */
+.sorteo-loader {
+  position: fixed; inset: 0; z-index: var(--z-modal);
+  display: grid; place-items: center;
+  background: radial-gradient(120% 160% at 50% 0%, var(--c-green), #020407);
+  transition: opacity .4s var(--ease), transform .4s var(--ease);
+}
+.sorteo-loader__inner { display: grid; gap: var(--s-3); place-items: center; text-align: center; color: #021008; }
+.sorteo-loader__logo { height: 42px; filter: drop-shadow(0 6px 18px rgba(0,0,0,.5)); }
+.sorteo-loader p { font-weight: var(--fw-semi); letter-spacing: .04em; text-transform: uppercase; }
+.sorteo-loader.is-hidden { opacity: 0; transform: translateY(-6px); pointer-events: none; visibility: hidden; }
+
+/* ---------- Hero ---------- */
+.sorteos-main { padding-block: var(--s-6); }
+.sorteo-hero {
+  display: grid; gap: var(--s-6); align-items: center;
+  grid-template-columns: minmax(0,1fr) minmax(0,1.1fr);
+}
+.sorteo-hero__img img { border-radius: var(--r-lg); border: 1px solid var(--c-line); box-shadow: var(--sh-md); }
+.sorteo-hero__info { display: grid; gap: var(--s-3); }
+.sorteo-kicker { font-size: var(--fs-xs); letter-spacing: .16em; text-transform: uppercase; color: var(--c-text-soft); }
+.sorteo-title { font-size: clamp(1.5rem, 3vw, 2rem); }
+
+/* ---------- Premios ---------- */
+.sorteo-prizes { display: grid; gap: var(--s-2); }
+.sorteo-prizes-grid { display: grid; grid-template-columns: 1fr; gap: var(--s-3); }
+.prize-card {
+  position: relative; overflow: hidden; isolation: isolate;
+  padding: var(--s-3) var(--s-4); border-radius: var(--r-lg);
+  display: grid; gap: 2px; box-shadow: var(--sh-md);
+}
+.prize-card::before {
+  content: ""; position: absolute; inset: -60%; pointer-events: none; opacity: 0;
+  background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,.7) 45%, transparent 70%);
+  transform: translateX(-40%);
+}
+@keyframes prizeSheen { 0% { opacity: 0; transform: translateX(-40%); } 20% { opacity: .85; transform: translateX(0); } 100% { opacity: 0; transform: translateX(60%); } }
+.prize-card--gold { background: radial-gradient(140% 160% at 0% 0%, #fef9c3, #facc15); color: #1f1300; }
+.prize-card--gold::before { animation: prizeSheen 3.4s ease-in-out infinite; }
+.prize-card--silver { background: radial-gradient(140% 160% at 0% 0%, #e5e7eb, #9ca3af); color: #030712; }
+.prize-card--silver::before { animation: prizeSheen 3.6s ease-in-out infinite 1.2s; }
+.prize-rank { font-size: var(--fs-xs); text-transform: uppercase; letter-spacing: .16em; opacity: .8; }
+.prize-amount { font-size: var(--fs-lg); font-weight: var(--fw-black); line-height: 1.1; }
+
+/* ---------- Contadores ---------- */
+.sorteo-counts { display: grid; gap: var(--s-3); }
+.sorteo-countdown {
+  display: inline-flex; align-items: center; gap: var(--s-2); width: max-content;
+  padding: var(--s-2) var(--s-3); border-radius: var(--r-pill);
+  background: var(--c-surface); border: 1px solid var(--c-line);
+}
+.cd-label { font-size: var(--fs-xs); text-transform: uppercase; letter-spacing: .12em; color: var(--c-text-soft); }
+.cd-value { font-weight: var(--fw-black); }
+
+/* Cupos (simulado) */
+.sorteo-slots { display: grid; gap: var(--s-1); max-width: 340px; }
+.slots-top { display: flex; justify-content: space-between; align-items: center; font-size: var(--fs-sm); }
+.slots-label { text-transform: uppercase; letter-spacing: .12em; color: var(--c-text-soft); }
+.slots-num { font-weight: var(--fw-black); }
+.slots-bar { position: relative; height: 22px; border-radius: var(--r-pill); overflow: hidden; background: var(--c-bg); border: 1px solid var(--c-line-strong); }
+.slots-bar-fill {
+  position: absolute; inset: 0; width: 0; display: flex; align-items: center; justify-content: center;
+  background: var(--g-gold); color: #111; font-size: var(--fs-xs); font-weight: var(--fw-black);
+  transition: width .4s var(--ease);
+}
+
+/* Pasos / legal */
+.sorteo-steps { margin: 0; padding-left: 18px; color: var(--c-text-soft); font-size: var(--fs-sm); display: grid; gap: 4px; }
+.sorteo-legal { font-size: var(--fs-xs); color: var(--c-text-faint); }
+.sorteo-cta-row { display: flex; flex-wrap: wrap; gap: var(--s-3); }
+.sorteos-wa-main { min-height: 48px; }
+
+/* Feed (simulado) */
+.sorteo-feed { margin-top: var(--s-4); padding: var(--s-3) var(--s-4); border-radius: var(--r-md); background: var(--c-surface); border: 1px solid var(--c-line); }
+.sorteo-feed__head { display: flex; align-items: center; gap: var(--s-2); margin-bottom: var(--s-2); font-size: var(--fs-sm); color: var(--c-text-soft); }
+.feed-dot { width: 8px; height: 8px; border-radius: var(--r-pill); background: var(--c-green); box-shadow: 0 0 10px var(--c-green-glow); }
+.sorteo-feed__list { list-style: none; padding: 0; display: grid; gap: 4px; font-size: var(--fs-sm); }
+.sorteo-feed__list li { color: var(--c-text-soft); }
+
+@media (min-width: 600px) { .sorteo-prizes-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 900px) {
+  .sorteo-hero { grid-template-columns: 1fr; text-align: center; }
+  .sorteo-hero__info { justify-items: center; }
+  .sorteo-countdown, .sorteo-slots { margin-inline: auto; }
+  .sorteo-steps { text-align: left; }
+  .sorteo-cta-row { justify-content: center; }
+}
+
+/* ---------- Tabla de ranking ---------- */
+.sorteo-ranking { margin-top: var(--s-8); }
+.sorteo-ranking__head { display: flex; flex-wrap: wrap; gap: var(--s-4); justify-content: space-between; align-items: flex-start; margin-bottom: var(--s-3); }
+.sorteo-ranking__title { font-size: var(--fs-md); }
+.sorteo-ranking__subtitle { font-size: var(--fs-sm); color: var(--c-text-soft); max-width: 440px; }
+.sorteo-ranking__meta { display: grid; gap: 4px; font-size: var(--fs-xs); color: var(--c-text-faint); }
+.sorteo-ranking__reload {
+  justify-self: end; border-radius: var(--r-pill); border: 1px solid var(--c-green);
+  background: rgba(14,169,101,.18); color: #d1fae5; font-size: var(--fs-xs); padding: 4px 12px;
+}
+.sorteo-ranking__reload:disabled { opacity: .6; }
+.sorteo-ranking__table-wrap { border-radius: var(--r-md); overflow: hidden; border: 1px solid var(--c-line); }
+.sorteo-ranking__table { width: 100%; border-collapse: collapse; font-size: var(--fs-sm); }
+.sorteo-ranking__table thead { background: linear-gradient(to right, var(--c-bg-2), rgba(14,169,101,.25)); }
+.sorteo-ranking__table th, .sorteo-ranking__table td { padding: var(--s-2) var(--s-3); text-align: left; white-space: nowrap; }
+.sorteo-ranking__table th { font-size: var(--fs-xs); letter-spacing: .08em; text-transform: uppercase; color: #d1fae5; }
+.sorteo-ranking__table td { border-top: 1px solid var(--c-line); }
+.sorteo-ranking__table tbody tr:nth-child(odd) { background: rgba(255,255,255,.02); }
+.sorteo-ranking__table tbody tr:hover { background: rgba(24,210,110,.12); }
+.rank-pos { font-weight: var(--fw-black); color: var(--c-green); }
+.rank-alias { font-weight: var(--fw-semi); max-width: 160px; overflow: hidden; text-overflow: ellipsis; }
+.rank-prov { font-size: var(--fs-xs); color: var(--c-text-soft); }
+.rank-pts { font-family: ui-monospace, Menlo, monospace; text-align: right; }
+.rank-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; padding: 1px 7px; border-radius: var(--r-pill); border: 1px solid var(--c-green); color: #a7f3d0; background: rgba(6,95,70,.7); margin-left: 6px; }
+.rank-badge--gold::before { content: "🥇"; }
+.rank-badge--silver::before { content: "🥈"; }
+.rank-badge--bronze::before { content: "🥉"; }
+.rank-empty { padding: var(--s-4); text-align: center; color: var(--c-text-faint); }
+
+@media (max-width: 640px) {
+  .sorteo-ranking__table th, .sorteo-ranking__table td { padding: var(--s-2); font-size: var(--fs-xs); }
+  .rank-alias { max-width: 120px; }
+}

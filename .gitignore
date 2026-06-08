@@ -1,0 +1,16 @@
+# Secrets / entorno — NUNCA commitear
+supabase/functions/**/.env
+.env
+.env.*
+
+# Backups y temporales
+*.bak
+supabase/.temp/
+
+# Sistema operativo
+.DS_Store
+**/.DS_Store
+
+# Editor
+.vscode/*
+!.vscode/extensions.json

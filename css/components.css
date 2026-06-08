@@ -1,0 +1,154 @@
+/* =========================================================
+   COMPONENTS — botones, cards, badges, slider, FAB, modales
+   ========================================================= */
+
+/* ---------- BOTONES ---------- */
+.btn {
+  --btn-bg: var(--c-surface-2);
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--s-2);
+  padding: var(--s-3) var(--s-5);
+  border-radius: var(--r-md);
+  font-weight: var(--fw-bold);
+  letter-spacing: .02em;
+  background: var(--btn-bg);
+  border: 1px solid var(--c-line-strong);
+  transition: transform var(--t-fast), filter var(--t-fast), box-shadow var(--t-fast);
+  will-change: transform;
+}
+.btn:hover { filter: brightness(1.06); transform: translateY(-1px); }
+.btn:active { transform: translateY(1px) scale(.98); }
+.btn-full { width: 100%; }
+.btn-pill { border-radius: var(--r-pill); }
+.btn-sm { padding: var(--s-2) var(--s-3); font-size: var(--fs-sm); }
+
+.btn-primary { --btn-bg: var(--g-green); color: var(--c-green-ink); border: 0; box-shadow: var(--sh-glow); }
+.btn-gold    { --btn-bg: var(--g-gold);  color: var(--c-gold-ink);  border: 0; box-shadow: 0 0 22px rgba(255,217,74,.32); }
+.btn-ghost   { --btn-bg: transparent; color: var(--c-text); }
+.btn-wpp     { --btn-bg: #25d366; color: #04210f; border: 0; }
+
+/* Accesos rápidos del header */
+.vip-head-btn, .promos-head-btn {
+  padding: 6px 14px; border-radius: var(--r-pill);
+  font-weight: var(--fw-black); letter-spacing: .04em; font-size: var(--fs-xs);
+  white-space: nowrap; transition: filter var(--t-fast), transform var(--t-fast);
+}
+.vip-head-btn { background: var(--g-gold); color: var(--c-gold-ink); }
+.promos-head-btn { background: var(--g-green); color: var(--c-green-ink); }
+.vip-head-btn:hover, .promos-head-btn:hover { filter: brightness(1.06); transform: translateY(-1px); }
+
+/* ---------- BADGES ---------- */
+.badge {
+  display: inline-grid; place-items: center;
+  height: 24px; padding: 0 12px; border-radius: var(--r-pill);
+  font-size: var(--fs-xs); font-weight: var(--fw-black); letter-spacing: .04em;
+}
+.badge-gold  { background: var(--g-gold);  color: var(--c-gold-ink); }
+.badge-green { background: var(--g-green);  color: var(--c-green-ink); }
+
+/* ---------- CARDS ---------- */
+.card {
+  background: var(--g-surface);
+  border: 1px solid var(--c-line);
+  border-radius: var(--r-lg);
+  padding: var(--s-5);
+  box-shadow: var(--sh-md);
+}
+.card-link { transition: transform var(--t-med), box-shadow var(--t-med), border-color var(--t-med); }
+.card-link:hover { transform: translateY(-3px); box-shadow: var(--sh-lg); border-color: var(--c-line-strong); }
+
+/* Tarjeta VIP (promos / sorteo) */
+.vip-card { position: relative; display: flex; flex-direction: column; gap: var(--s-2); }
+.vip-card .vip-title { font-size: var(--fs-md); }
+.vip-card .vip-text { color: var(--c-text-soft); font-size: var(--fs-sm); }
+.vip-card .vip-cta {
+  margin-top: var(--s-2); align-self: flex-start;
+  font-weight: var(--fw-bold); color: var(--c-green);
+}
+.vip-card .vip-cta::after { content: " →"; }
+
+/* Pasos "¿Qué hago primero?" */
+.steps { list-style: none; padding: 0; display: flex; flex-direction: column; gap: var(--s-3); }
+.step { display: flex; gap: var(--s-3); align-items: flex-start; }
+.step-num {
+  flex: 0 0 28px; height: 28px; display: grid; place-items: center;
+  border-radius: var(--r-pill); background: var(--c-surface-2);
+  border: 1px solid var(--c-line-strong); font-weight: var(--fw-black);
+  color: var(--c-green); font-size: var(--fs-sm);
+}
+.step-text { color: var(--c-text-soft); padding-top: 3px; }
+
+/* ---------- BANNERS DE PROMO ---------- */
+.promo-grid { display: grid; gap: var(--s-4); grid-template-columns: 1fr; }
+@media (min-width: 768px) { .promo-grid { grid-template-columns: 1fr 1fr; } }
+.promo-banner {
+  display: block; border-radius: var(--r-lg); overflow: hidden;
+  background: var(--c-surface); box-shadow: var(--sh-md);
+  transition: transform var(--t-med), box-shadow var(--t-med), filter var(--t-med);
+}
+.promo-banner img { width: 100%; height: auto; aspect-ratio: 1200 / 450; object-fit: cover; }
+.promo-banner:hover { transform: translateY(-2px) scale(1.005); box-shadow: var(--sh-lg); filter: brightness(1.04); }
+.promo-banner:active { transform: scale(.995); filter: brightness(.95); }
+
+/* ---------- SLIDER ---------- */
+.slider { position: relative; }
+.slider .slides { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; border-radius: var(--r-lg); }
+.slider .slides::-webkit-scrollbar { display: none; }
+.slider .slide { flex: 0 0 100%; scroll-snap-align: center; }
+.slider .slide img { width: 100%; height: auto; border-radius: var(--r-lg); }
+.slider .dots { display: flex; gap: var(--s-2); justify-content: center; margin-top: var(--s-3); }
+.slider .dots button {
+  width: 8px; height: 8px; border-radius: var(--r-pill);
+  background: var(--c-line-strong); transition: width var(--t-fast), background var(--t-fast);
+}
+.slider .dots button.is-active { width: 22px; background: var(--c-green); }
+
+/* ---------- BANK BOX (CBU) ---------- */
+.bank-box { margin-top: var(--s-5); }
+.bank-box__header { display: flex; flex-wrap: wrap; gap: var(--s-2); align-items: baseline; justify-content: space-between; }
+.bank-box__row { display: flex; align-items: center; gap: var(--s-3); margin-top: var(--s-3); flex-wrap: wrap; }
+.bank-box__label { color: var(--c-text-faint); font-size: var(--fs-sm); }
+.bank-box__value {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: var(--fs-md); letter-spacing: 1px; color: var(--c-green);
+  background: var(--c-bg); padding: var(--s-2) var(--s-3); border-radius: var(--r-sm);
+  border: 1px solid var(--c-line);
+}
+.bank-box__hint { color: var(--c-text-faint); font-size: var(--fs-sm); margin-top: var(--s-3); }
+.bank-box__select select {
+  margin-top: var(--s-2); width: 100%; padding: var(--s-3);
+  background: var(--c-surface-2); border: 1px solid var(--c-line-strong); border-radius: var(--r-md);
+}
+
+/* ---------- FAB CONTACTO ---------- */
+.contact-fab { position: fixed; right: var(--s-4); bottom: var(--s-4); z-index: var(--z-chat); display: flex; flex-direction: column; align-items: flex-end; }
+.contact-fab__btn {
+  width: 56px; height: 56px; border-radius: var(--r-pill);
+  display: grid; place-items: center; font-size: 1.6rem;
+  background: radial-gradient(circle at 30% 0%, #38f9a5, #0b5e3a);
+  color: #fff; box-shadow: var(--sh-md);
+  transition: transform var(--t-fast), box-shadow var(--t-fast);
+}
+.contact-fab__btn:hover { transform: translateY(-2px) scale(1.04); box-shadow: var(--sh-lg); }
+.contact-fab__list {
+  display: flex; flex-direction: column-reverse; align-items: flex-end; gap: var(--s-2);
+  margin-bottom: var(--s-2);
+  max-height: 0; opacity: 0; transform: translateY(10px); pointer-events: none; overflow: hidden;
+  transition: max-height var(--t-med), opacity var(--t-med), transform var(--t-med);
+}
+.contact-fab.open .contact-fab__list { max-height: 320px; opacity: 1; transform: none; pointer-events: auto; }
+.contact-fab__item {
+  display: flex; align-items: center; gap: var(--s-2);
+  padding: var(--s-2) var(--s-3); border-radius: var(--r-pill);
+  background: rgba(5,7,11,.95); border: 1px solid var(--c-line-strong);
+  font-size: var(--fs-sm); white-space: nowrap; box-shadow: var(--sh-sm);
+}
+
+/* ---------- MODALES (overlay) ---------- */
+.overlay {
+  position: fixed; inset: 0; z-index: var(--z-modal);
+  display: grid; place-items: center; padding: var(--s-4);
+  background: rgba(0,0,0,.7); backdrop-filter: blur(4px);
+}
+.overlay[hidden] { display: none; }
+.overlay__card { width: min(640px, 100%); background: var(--c-surface); border: 1px solid var(--c-line); border-radius: var(--r-lg); overflow: hidden; box-shadow: var(--sh-lg); }
+.overlay__close { position: absolute; top: var(--s-4); right: var(--s-4); font-size: 1.5rem; color: #fff; }
