@@ -42,8 +42,6 @@ function applyConfig(cfg = {}) {
 
   const cd = document.getElementById("drawCountdown");
   if (cd && cfg.draw_end) cd.dataset.end = cfg.draw_end;
-  const slots = document.getElementById("slots");
-  if (slots) { if (cfg.slots_total != null) slots.dataset.total = cfg.slots_total; if (cfg.slots_min != null) slots.dataset.min = cfg.slots_min; }
 }
 
 function trackClick() {
@@ -74,45 +72,30 @@ function setupCountdown(cfg = {}) {
   tick(); setInterval(tick, 60000);
 }
 
-// Cupos SIMULADOS (presión psicológica). Mantenido a pedido.
-// El total sube de 200 a 400 entre el 3 y el 30 de septiembre, en 2-3
-// escalones por día (no continuo), para que se vea como crecimiento real.
+// Contador de jugadores SIMULADO (presión psicológica). Mantenido a pedido.
+// Arranca en 0 el día de lanzamiento y sube +2 por día hasta el cierre
+// de la tabla (30/9), llegando a ~54.
 const SLOTS_CAMPAIGN_START = new Date("2026-09-03T00:00:00-03:00");
 const SLOTS_CAMPAIGN_END = new Date("2026-09-30T23:59:59-03:00");
-const SLOTS_START_TOTAL = 200;
-const SLOTS_END_TOTAL = 400;
-const SLOTS_TICK_HOURS = [9, 14, 20]; // 3 escalones/día
+const SLOTS_DAILY_INCREMENT = 2;
 
-function computeDailySlotsTotal(now = new Date()) {
-  if (now <= SLOTS_CAMPAIGN_START) return SLOTS_START_TOTAL;
-  if (now >= SLOTS_CAMPAIGN_END) return SLOTS_END_TOTAL;
-  const totalDays = (SLOTS_CAMPAIGN_END - SLOTS_CAMPAIGN_START) / 86400000;
-  const fullDays = Math.floor((now - SLOTS_CAMPAIGN_START) / 86400000);
-  const ticksToday = SLOTS_TICK_HOURS.filter((h) => now.getHours() >= h).length;
-  const progress = Math.min(totalDays, fullDays + ticksToday / SLOTS_TICK_HOURS.length);
-  return Math.round(SLOTS_START_TOTAL + (SLOTS_END_TOTAL - SLOTS_START_TOTAL) * (progress / totalDays));
+function computeDailySlotsCount(now = new Date()) {
+  if (now <= SLOTS_CAMPAIGN_START) return 0;
+  const cappedNow = now > SLOTS_CAMPAIGN_END ? SLOTS_CAMPAIGN_END : now;
+  const daysElapsed = Math.floor((cappedNow - SLOTS_CAMPAIGN_START) / 86400000);
+  return daysElapsed * SLOTS_DAILY_INCREMENT;
 }
 
 function setupSlots(cfg = {}) {
   const box = document.getElementById("slots");
   if (!box) return;
-  const total = cfg.slots_total != null ? Number(cfg.slots_total) : computeDailySlotsTotal();
-  const min = cfg.slots_min != null ? Number(cfg.slots_min) : Math.round(total * 0.8);
+  const count = cfg.slots_total != null ? Number(cfg.slots_total) : computeDailySlotsCount();
   const current = document.getElementById("slotsCurrent");
   const fill = document.getElementById("slotsFill");
   const fillText = document.getElementById("slotsFillText");
-  let n = min;
-  const render = () => {
-    if (current) current.textContent = n;
-    if (fill) fill.style.width = Math.min(100, (n / total) * 100) + "%";
-    if (fillText) fillText.textContent = `${n} / ${total}`;
-  };
-  render();
-  const id = setInterval(() => {
-    if (n >= total) return clearInterval(id);
-    n = Math.min(total, n + (Math.random() < 0.5 ? 1 : 2));
-    render();
-  }, 12000);
+  if (current) current.textContent = count;
+  if (fill) fill.style.width = "100%";
+  if (fillText) fillText.textContent = `${count} jugadores sumados`;
 }
 
 // Feed SIMULADO de participantes. Mantenido a pedido.
