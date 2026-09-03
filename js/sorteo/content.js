@@ -7,11 +7,15 @@
 import { db } from "../supabase.js";
 
 async function loadConfig() {
+  const timeout = new Promise((resolve) => setTimeout(() => resolve(null), 4000));
   try {
-    const { data, error } = await db
+    const query = db
       .from("contenido_dinamico")
       .select("kicker,titulo,premio1_label,premio1_monto,premio2_label,premio2_monto,draw_end,slots_min,slots_total,cta_label,cta_url,legal,hero_image")
       .eq("slug", "sorteo").eq("is_active", true).limit(1);
+    const result = await Promise.race([query, timeout]);
+    if (!result) return {};
+    const { data, error } = result;
     if (error || !data?.length) return {};
     return data[0];
   } catch { return {}; }
@@ -28,7 +32,10 @@ function applyConfig(cfg = {}) {
   if (cfg.premio2_label) set(".prize-card--silver .prize-rank", cfg.premio2_label);
   if (money(cfg.premio2_monto)) set(".prize-card--silver .prize-amount", money(cfg.premio2_monto));
 
-  if (cfg.hero_image) set(".sorteo-hero__img img", cfg.hero_image, "src");
+  if (cfg.hero_image) {
+    const bg = document.querySelector(".sorteo-hero__bg");
+    if (bg) bg.style.backgroundImage = `url("${cfg.hero_image}")`;
+  }
   const cta = document.querySelector(".sorteos-wa-main");
   if (cta) { if (cfg.cta_label) cta.textContent = cfg.cta_label; if (cfg.cta_url) cta.href = cfg.cta_url; }
   set(".sorteo-legal", cfg.legal);
@@ -68,11 +75,29 @@ function setupCountdown(cfg = {}) {
 }
 
 // Cupos SIMULADOS (presión psicológica). Mantenido a pedido.
+// El total sube de 200 a 400 entre el 3 y el 30 de septiembre, en 2-3
+// escalones por día (no continuo), para que se vea como crecimiento real.
+const SLOTS_CAMPAIGN_START = new Date("2026-09-03T00:00:00-03:00");
+const SLOTS_CAMPAIGN_END = new Date("2026-09-30T23:59:59-03:00");
+const SLOTS_START_TOTAL = 200;
+const SLOTS_END_TOTAL = 400;
+const SLOTS_TICK_HOURS = [9, 14, 20]; // 3 escalones/día
+
+function computeDailySlotsTotal(now = new Date()) {
+  if (now <= SLOTS_CAMPAIGN_START) return SLOTS_START_TOTAL;
+  if (now >= SLOTS_CAMPAIGN_END) return SLOTS_END_TOTAL;
+  const totalDays = (SLOTS_CAMPAIGN_END - SLOTS_CAMPAIGN_START) / 86400000;
+  const fullDays = Math.floor((now - SLOTS_CAMPAIGN_START) / 86400000);
+  const ticksToday = SLOTS_TICK_HOURS.filter((h) => now.getHours() >= h).length;
+  const progress = Math.min(totalDays, fullDays + ticksToday / SLOTS_TICK_HOURS.length);
+  return Math.round(SLOTS_START_TOTAL + (SLOTS_END_TOTAL - SLOTS_START_TOTAL) * (progress / totalDays));
+}
+
 function setupSlots(cfg = {}) {
   const box = document.getElementById("slots");
   if (!box) return;
-  const total = Number(cfg.slots_total ?? box.dataset.total) || 200;
-  const min = Number(cfg.slots_min ?? box.dataset.min) || 150;
+  const total = cfg.slots_total != null ? Number(cfg.slots_total) : computeDailySlotsTotal();
+  const min = cfg.slots_min != null ? Number(cfg.slots_min) : Math.round(total * 0.8);
   const current = document.getElementById("slotsCurrent");
   const fill = document.getElementById("slotsFill");
   const fillText = document.getElementById("slotsFillText");

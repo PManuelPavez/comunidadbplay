@@ -57,11 +57,9 @@
   </header>
 
   <main class="container sorteos-main">
-    <!-- HERO -->
+    <!-- 1. HERO + PREMIOS (prioridad 1: lo primero que ve el usuario) -->
     <section class="sorteo-hero reveal" aria-labelledby="sorteo-title">
-      <div class="sorteo-hero__img">
-        <img id="sorteoHeroImg" src="media/promos/opt/slide-sorteos.webp" alt="Sorteo Bplay" loading="lazy" decoding="async">
-      </div>
+      <div class="sorteo-hero__bg" aria-hidden="true"></div>
 
       <div class="sorteo-hero__info">
         <p class="sorteo-kicker">SORTEO BPLAY</p>
@@ -75,6 +73,10 @@
             <article class="prize-card prize-card--silver">
               <span class="prize-rank">2° premio</span>
               <span class="prize-amount" id="premioPlata">$50.000</span>
+            </article>
+            <article class="prize-card prize-card--bronze">
+              <span class="prize-rank">3° al 8° puesto</span>
+              <span class="prize-amount">$10.000 c/u</span>
             </article>
           </div>
         </div>
@@ -99,38 +101,31 @@
           <a href="https://wa.me/5492617490475?text=Hola%2C%20quiero%20participar%20del%20SORTEO%20de%20Bplay"
              target="_blank" rel="noopener" class="btn btn-wpp sorteos-wa-main">¡Quiero sumar puntos!</a>
         </div>
-
-        <ul class="sorteo-steps">
-          <li>Escribinos por WhatsApp con la palabra <strong>"SORTEO"</strong>.</li>
-          <li>Jugá en Bplay y sumá <strong>puntos</strong> durante el sorteo.</li>
-          <li>Los primeros del ranking participan por <strong>$100.000</strong> y <strong>$50.000</strong>.</li>
-        </ul>
-
-        <div class="sorteo-feed">
-          <div class="sorteo-feed__head"><span class="feed-dot"></span> Participantes sumando chances</div>
-          <ul class="sorteo-feed__list" id="feedList"></ul>
-        </div>
-
-        <p class="sorteo-legal">
-          Promoción válida para usuarios registrados y verificados, mayores de 18 años.
-          Válido para Argentina según T&amp;C de Bplay. Juego responsable.
-        </p>
       </div>
     </section>
 
-    <!-- TABLA DE PUNTOS -->
+    <!-- 2. RANKING EN VIVO (prioridad 2: la competencia es lo principal) -->
     <section class="sorteo-ranking card reveal" aria-labelledby="ranking-title">
       <div class="sorteo-ranking__head">
         <div>
           <p class="sorteo-kicker">Tabla de puntos</p>
           <h2 id="ranking-title" class="sorteo-ranking__title">Ranking del sorteo</h2>
-          <p class="sorteo-ranking__subtitle">Los primeros 2 del ranking participan por los premios de <strong>$100.000 &amp; $50.000</strong>.</p>
+          <p class="sorteo-ranking__subtitle">Los primeros <strong>8 puestos</strong> se reparten <strong>$100.000, $50.000</strong> y premios de <strong>$10.000</strong>.</p>
         </div>
         <div class="sorteo-ranking__meta">
           <span id="rankingLastUpdate">Última actualización: –</span>
+          <span id="rankingCount" class="sorteo-ranking__count"></span>
           <button id="rankingReloadBtn" type="button" class="sorteo-ranking__reload">↻ Actualizar</button>
         </div>
       </div>
+
+      <div id="rankingPodium" class="sorteo-podium" hidden></div>
+      <p class="sorteo-podium__note">Del 4° al 8° puesto también se ganan <strong>$10.000</strong> cada uno.</p>
+
+      <div class="sorteo-ranking__search">
+        <input id="rankingSearch" type="search" placeholder="Buscá tu alias en la tabla…" aria-label="Buscar alias en el ranking">
+      </div>
+
       <div class="sorteo-ranking__table-wrap">
         <table class="sorteo-ranking__table">
           <thead>
@@ -141,6 +136,100 @@
           </tbody>
         </table>
       </div>
+      <p id="rankingSearchEmpty" class="rank-empty" hidden>No encontramos ese alias en la tabla.</p>
+    </section>
+
+    <!-- 3. CÓMO SUMÁS PUNTOS + REQUISITOS (prioridad 3) -->
+    <section class="sorteo-rules card reveal" aria-labelledby="rules-title">
+      <div class="sorteo-rules__layout">
+        <div class="sorteo-rules__text">
+          <p class="sorteo-kicker">Bases del sorteo</p>
+          <h2 id="rules-title" class="sorteo-ranking__title">Cómo sumás puntos</h2>
+          <p class="sorteo-ranking__subtitle">
+            Invitá → sumá puntos → subí posiciones → competí por premios.
+            Los referidos son la forma <strong>principal</strong> de sumar puntos: valen más que los depósitos.
+          </p>
+
+          <div class="points-table">
+            <div class="points-row points-row--head"><span>Acción</span><span>Puntos</span></div>
+            <div class="points-row"><span>👥 Referido válido</span><span class="points-chip points-chip--top">30 pts</span></div>
+            <div class="points-row"><span>🔥 Depósito en día de promoción</span><span class="points-chip">15 pts</span></div>
+            <div class="points-row"><span>💰 Depósito común de $10.000</span><span class="points-chip">10 pts</span></div>
+            <div class="points-row"><span>📲 Seguir el canal</span><span class="points-chip">5 pts</span></div>
+          </div>
+          <p class="points-note">
+            Importante: el referido no premia al instante. Genera puntos, los puntos te suben en la tabla, y la tabla define el premio final.
+          </p>
+
+          <div class="sorteo-requisitos">
+            <h3 class="sorteo-requisitos__title">Requisitos para participar</h3>
+            <ul class="sorteo-requisitos__list">
+              <li><span class="req-check">✓</span> Estar en el canal de WhatsApp de Bplay.</li>
+              <li><span class="req-check">✓</span> Invitar un referido que realice una carga <span class="req-or">o</span> realizar un depósito propio.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="sorteo-rules__img">
+          <picture>
+            <source media="(max-width: 600px)" srcset="media/promos/opt/sorteo-tabla-puntos-sm.webp">
+            <img src="media/promos/opt/sorteo-tabla-puntos.webp" alt="Gráfico oficial: tabla de puntos por acción del Sorteo Bplay" loading="lazy" decoding="async">
+          </picture>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. PREGUNTAS FRECUENTES (prioridad 4: al final) -->
+    <section class="sorteo-faq-section card reveal" aria-labelledby="faq-title">
+      <p class="sorteo-kicker">Dudas frecuentes</p>
+      <h2 id="faq-title" class="sorteo-ranking__title">Preguntas frecuentes</h2>
+      <div class="sorteo-faq">
+        <details class="sorteo-faq__item">
+          <summary>¿Quiénes pueden participar?</summary>
+          <p>Usuarios registrados y verificados en Bplay, mayores de 18 años, dentro de Argentina, que cumplan los requisitos de arriba.</p>
+        </details>
+        <details class="sorteo-faq__item">
+          <summary>¿Cada cuánto se actualiza la tabla?</summary>
+          <p>El ranking se actualiza en vivo desde nuestra planilla de seguimiento. Podés tocar "Actualizar" en cualquier momento para traer los últimos puntos.</p>
+        </details>
+        <details class="sorteo-faq__item">
+          <summary>¿Qué pasa en caso de empate?</summary>
+          <p>Ante un empate de puntos entre dos o más jugadores en los puestos premiados, se define por orden de acumulación (quien alcanzó ese puntaje primero).</p>
+        </details>
+        <details class="sorteo-faq__item">
+          <summary>¿Cuándo y cómo se entregan los premios?</summary>
+          <p>Al cierre de la tabla (fecha indicada arriba) se congela el ranking y contactamos por WhatsApp a los puestos 1° al 8° para coordinar la entrega de los premios.</p>
+        </details>
+        <details class="sorteo-faq__item">
+          <summary>Tengo una duda que no está acá</summary>
+          <p>Escribinos por WhatsApp con la palabra <strong>"SORTEO"</strong> y te respondemos directamente.</p>
+        </details>
+      </div>
+    </section>
+
+    <!-- 5. RECAP + FEED EN VIVO + LEGAL (al final) -->
+    <section class="sorteo-recap card reveal" aria-labelledby="recap-title">
+      <h2 id="recap-title" class="sorteo-ranking__title">Así de fácil</h2>
+      <ul class="sorteo-steps">
+        <li>Escribinos por WhatsApp con la palabra <strong>"SORTEO"</strong> y sumate al canal.</li>
+        <li>Invitá referidos que carguen (<strong>+30 pts</strong>) o hacé un depósito (<strong>+10 a 15 pts</strong>).</li>
+        <li>Los primeros <strong>8 puestos</strong> del ranking se reparten <strong>$100.000, $50.000</strong> y premios de <strong>$10.000</strong>.</li>
+      </ul>
+
+      <div class="sorteo-cta-row">
+        <a href="https://wa.me/5492617490475?text=Hola%2C%20quiero%20participar%20del%20SORTEO%20de%20Bplay"
+           target="_blank" rel="noopener" class="btn btn-wpp sorteos-wa-main">¡Quiero sumar puntos!</a>
+      </div>
+
+      <div class="sorteo-feed">
+        <div class="sorteo-feed__head"><span class="feed-dot"></span> Participantes sumando chances</div>
+        <ul class="sorteo-feed__list" id="feedList"></ul>
+      </div>
+
+      <p class="sorteo-legal">
+        Promoción válida para usuarios registrados y verificados, mayores de 18 años.
+        Válido para Argentina según T&amp;C de Bplay. Juego responsable.
+      </p>
     </section>
   </main>
 
