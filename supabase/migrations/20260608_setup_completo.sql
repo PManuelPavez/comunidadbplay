@@ -90,7 +90,7 @@ insert into public.contenido_dinamico
    draw_end, slots_min, slots_total, cta_label, cta_url, legal, hero_image)
 select 'sorteo', true, 'SORTEO BPLAY', 'Sumá puntos y ganá',
        '1° premio', 100000, '2° premio', 50000,
-       '2026-12-24T23:59:00-03:00', 160, 200,
+       '2026-12-24T23:59:00-03:00', null, null,
        '¡Quiero sumar puntos!',
        'https://wa.me/5492617490475?text=Hola%2C%20quiero%20participar%20del%20SORTEO%20de%20Bplay',
        'Promoción válida para usuarios registrados y verificados, mayores de 18 años. Juego responsable.',
