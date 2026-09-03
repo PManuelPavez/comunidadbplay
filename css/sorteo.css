@@ -19,11 +19,22 @@
 /* ---------- Hero ---------- */
 .sorteos-main { padding-block: var(--s-6); }
 .sorteo-hero {
-  display: grid; gap: var(--s-6); align-items: center;
-  grid-template-columns: minmax(0,1fr) minmax(0,1.1fr);
+  position: relative; overflow: hidden; isolation: isolate;
+  border-radius: var(--r-lg); border: 1px solid var(--c-line);
+  padding: var(--s-8) var(--s-5);
+  display: grid; justify-items: center; text-align: center;
 }
-.sorteo-hero__img img { border-radius: var(--r-lg); border: 1px solid var(--c-line); box-shadow: var(--sh-md); }
-.sorteo-hero__info { display: grid; gap: var(--s-3); }
+.sorteo-hero__bg {
+  position: absolute; inset: -30px; z-index: -2;
+  background: url("../media/promos/opt/sorteo-premios.webp") center 15%/cover no-repeat;
+  filter: blur(32px) brightness(.45) saturate(1.15);
+  transform: scale(1.15);
+}
+.sorteo-hero::before {
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  background: radial-gradient(120% 140% at 50% 0%, rgba(5,7,11,.25), rgba(5,7,11,.9) 78%);
+}
+.sorteo-hero__info { position: relative; display: grid; gap: var(--s-3); justify-items: center; max-width: 560px; }
 .sorteo-kicker { font-size: var(--fs-xs); letter-spacing: .16em; text-transform: uppercase; color: var(--c-text-soft); }
 .sorteo-title { font-size: clamp(1.5rem, 3vw, 2rem); }
 
@@ -45,6 +56,9 @@
 .prize-card--gold::before { animation: prizeSheen 3.4s ease-in-out infinite; }
 .prize-card--silver { background: radial-gradient(140% 160% at 0% 0%, #e5e7eb, #9ca3af); color: #030712; }
 .prize-card--silver::before { animation: prizeSheen 3.6s ease-in-out infinite 1.2s; }
+.prize-card--bronze { background: radial-gradient(140% 160% at 0% 0%, #f3d4ae, #b5773f); color: #2b1500; }
+.prize-card--bronze::before { animation: prizeSheen 3.8s ease-in-out infinite 2.4s; }
+.prize-card--bronze .prize-amount { font-size: var(--fs-md); }
 .prize-rank { font-size: var(--fs-xs); text-transform: uppercase; letter-spacing: .16em; opacity: .8; }
 .prize-amount { font-size: var(--fs-lg); font-weight: var(--fw-black); line-height: 1.1; }
 
@@ -71,9 +85,9 @@
 }
 
 /* Pasos / legal */
-.sorteo-steps { margin: 0; padding-left: 18px; color: var(--c-text-soft); font-size: var(--fs-sm); display: grid; gap: 4px; }
+.sorteo-steps { margin: 0; padding-left: 18px; color: var(--c-text-soft); font-size: var(--fs-sm); display: grid; gap: 4px; text-align: left; }
 .sorteo-legal { font-size: var(--fs-xs); color: var(--c-text-faint); }
-.sorteo-cta-row { display: flex; flex-wrap: wrap; gap: var(--s-3); }
+.sorteo-cta-row { display: flex; flex-wrap: wrap; gap: var(--s-3); justify-content: center; }
 .sorteos-wa-main { min-height: 48px; }
 
 /* Feed (simulado) */
@@ -83,13 +97,103 @@
 .sorteo-feed__list { list-style: none; padding: 0; display: grid; gap: 4px; font-size: var(--fs-sm); }
 .sorteo-feed__list li { color: var(--c-text-soft); }
 
-@media (min-width: 600px) { .sorteo-prizes-grid { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 600px) { .sorteo-prizes-grid { grid-template-columns: repeat(3, 1fr); } }
 @media (max-width: 900px) {
-  .sorteo-hero { grid-template-columns: 1fr; text-align: center; }
-  .sorteo-hero__info { justify-items: center; }
   .sorteo-countdown, .sorteo-slots { margin-inline: auto; }
-  .sorteo-steps { text-align: left; }
-  .sorteo-cta-row { justify-content: center; }
+}
+
+/* ---------- Recap final (pasos + feed + legal) ---------- */
+.sorteo-recap { margin-top: var(--s-8); }
+.sorteo-recap .sorteo-cta-row { margin-top: var(--s-4); justify-content: flex-start; }
+.sorteo-recap .sorteo-legal { margin-top: var(--s-2); }
+
+/* ---------- Reglas / FAQ ---------- */
+.sorteo-rules { margin-top: var(--s-8); }
+.sorteo-rules__layout { display: grid; gap: var(--s-6); grid-template-columns: minmax(0,1.15fr) minmax(0,1fr); align-items: start; }
+.sorteo-rules__img { display: flex; justify-content: center; }
+.sorteo-rules__img img {
+  max-width: 300px; width: 100%; height: auto;
+  border-radius: var(--r-lg); border: 1px solid var(--c-line); box-shadow: var(--sh-md);
+}
+@media (max-width: 900px) { .sorteo-rules__layout { grid-template-columns: 1fr; } }
+
+.sorteo-faq-section { margin-top: var(--s-8); }
+
+/* Tabla "cómo sumás puntos" */
+.points-table { margin-top: var(--s-4); border: 1px solid var(--c-line); border-radius: var(--r-md); overflow: hidden; }
+.points-row { display: flex; align-items: center; justify-content: space-between; gap: var(--s-3); padding: var(--s-3) var(--s-4); font-size: var(--fs-sm); }
+.points-row + .points-row { border-top: 1px solid var(--c-line); }
+.points-row--head { background: linear-gradient(to right, var(--c-bg-2), rgba(14,169,101,.25)); font-size: var(--fs-xs); text-transform: uppercase; letter-spacing: .08em; color: #d1fae5; }
+.points-chip {
+  font-family: ui-monospace, Menlo, monospace; font-weight: var(--fw-black);
+  padding: 2px 10px; border-radius: var(--r-pill); background: var(--c-surface-2);
+  border: 1px solid var(--c-line-strong); white-space: nowrap;
+}
+.points-chip--top { background: var(--g-green); color: var(--c-green-ink); border: 0; }
+.points-note { margin-top: var(--s-3); font-size: var(--fs-sm); color: var(--c-text-soft); }
+
+/* Requisitos */
+.sorteo-requisitos { margin-top: var(--s-6); }
+.sorteo-requisitos__title { font-size: var(--fs-base); font-weight: var(--fw-bold); margin-bottom: var(--s-2); }
+.sorteo-requisitos__list { list-style: none; padding: 0; display: grid; gap: var(--s-2); font-size: var(--fs-sm); color: var(--c-text-soft); }
+.sorteo-requisitos__list li { display: flex; align-items: baseline; gap: var(--s-2); }
+.req-check { color: var(--c-green); font-weight: var(--fw-black); flex-shrink: 0; }
+.req-or { text-transform: uppercase; font-size: var(--fs-xs); color: var(--c-text-faint); font-weight: var(--fw-bold); }
+
+.sorteo-faq { margin-top: var(--s-6); display: grid; gap: var(--s-2); }
+.sorteo-faq__item {
+  border: 1px solid var(--c-line); border-radius: var(--r-md);
+  background: var(--c-surface); overflow: hidden;
+}
+.sorteo-faq__item + .sorteo-faq__item { margin-top: 0; }
+.sorteo-faq__item summary {
+  cursor: pointer; list-style: none; padding: var(--s-3) var(--s-4);
+  font-weight: var(--fw-semi); color: var(--c-text); position: relative;
+  padding-right: var(--s-10);
+}
+.sorteo-faq__item summary::-webkit-details-marker { display: none; }
+.sorteo-faq__item summary::after {
+  content: "+"; position: absolute; right: var(--s-4); top: 50%; transform: translateY(-50%);
+  font-size: var(--fs-lg); font-weight: var(--fw-black); color: var(--c-green); line-height: 1;
+}
+.sorteo-faq__item[open] summary::after { content: "–"; }
+.sorteo-faq__item summary:hover { background: rgba(24,210,110,.08); }
+.sorteo-faq__item p { margin: 0; padding: 0 var(--s-4) var(--s-4); color: var(--c-text-soft); font-size: var(--fs-sm); }
+
+/* ---------- Podio ---------- */
+.sorteo-podium {
+  margin-top: var(--s-4); display: grid; gap: var(--s-3);
+  grid-template-columns: repeat(3, minmax(0,1fr));
+}
+.podium-card {
+  display: grid; gap: 4px; justify-items: center; text-align: center;
+  padding: var(--s-4) var(--s-2); border-radius: var(--r-lg);
+  background: var(--c-surface-2); border: 1px solid var(--c-line-strong);
+}
+.podium-card--1 { order: 2; background: radial-gradient(140% 160% at 50% 0%, rgba(255,217,74,.22), var(--c-surface-2)); border-color: var(--c-gold); }
+.podium-card--2 { order: 1; }
+.podium-card--3 { order: 3; }
+.podium-medal { font-size: var(--fs-xl); }
+.podium-alias { font-weight: var(--fw-bold); overflow: hidden; text-overflow: ellipsis; max-width: 100%; white-space: nowrap; }
+.podium-prov { font-size: var(--fs-xs); color: var(--c-text-soft); }
+.podium-pts { font-family: ui-monospace, Menlo, monospace; font-weight: var(--fw-black); color: var(--c-green); }
+.sorteo-podium__note { margin-top: var(--s-2); font-size: var(--fs-xs); color: var(--c-text-faint); text-align: center; }
+
+/* ---------- Buscador de ranking ---------- */
+.sorteo-ranking__search { margin: var(--s-3) 0; }
+.sorteo-ranking__search input {
+  width: 100%; padding: var(--s-2) var(--s-3); border-radius: var(--r-pill);
+  background: var(--c-surface-2); border: 1px solid var(--c-line-strong);
+  color: var(--c-text); font-size: var(--fs-sm);
+}
+.sorteo-ranking__search input::placeholder { color: var(--c-text-faint); }
+.sorteo-ranking__search input:focus { outline: 2px solid var(--c-green); outline-offset: 1px; }
+.sorteo-ranking__count { white-space: nowrap; }
+.sorteo-ranking__table tbody tr.is-match { background: rgba(24,210,110,.2); }
+
+@media (max-width: 640px) {
+  .sorteo-podium { grid-template-columns: 1fr; }
+  .podium-card--1, .podium-card--2, .podium-card--3 { order: initial; }
 }
 
 /* ---------- Tabla de ranking ---------- */
@@ -103,7 +207,7 @@
   background: rgba(14,169,101,.18); color: #d1fae5; font-size: var(--fs-xs); padding: 4px 12px;
 }
 .sorteo-ranking__reload:disabled { opacity: .6; }
-.sorteo-ranking__table-wrap { border-radius: var(--r-md); overflow: hidden; border: 1px solid var(--c-line); }
+.sorteo-ranking__table-wrap { border-radius: var(--r-md); overflow-x: auto; border: 1px solid var(--c-line); }
 .sorteo-ranking__table { width: 100%; border-collapse: collapse; font-size: var(--fs-sm); }
 .sorteo-ranking__table thead { background: linear-gradient(to right, var(--c-bg-2), rgba(14,169,101,.25)); }
 .sorteo-ranking__table th, .sorteo-ranking__table td { padding: var(--s-2) var(--s-3); text-align: left; white-space: nowrap; }
@@ -119,7 +223,11 @@
 .rank-badge--gold::before { content: "🥇"; }
 .rank-badge--silver::before { content: "🥈"; }
 .rank-badge--bronze::before { content: "🥉"; }
+.rank-badge--prize { border-color: var(--c-line-strong); color: var(--c-text-soft); background: var(--c-surface-2); }
+.rank-badge--prize::before { content: "🏆"; }
 .rank-empty { padding: var(--s-4); text-align: center; color: var(--c-text-faint); }
+.sorteo-ranking__table tbody tr.rank-prize { background: rgba(24,210,110,.06); }
+.sorteo-ranking__table tbody tr.rank-prize:hover { background: rgba(24,210,110,.14); }
 
 @media (max-width: 640px) {
   .sorteo-ranking__table th, .sorteo-ranking__table td { padding: var(--s-2); font-size: var(--fs-xs); }
