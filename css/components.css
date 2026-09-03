@@ -89,6 +89,33 @@
 .promo-banner:hover { transform: translateY(-2px) scale(1.005); box-shadow: var(--sh-lg); filter: brightness(1.04); }
 .promo-banner:active { transform: scale(.995); filter: brightness(.95); }
 
+/* ---------- PROMO CARDS (bloques de texto, elegidos por provincia + día en promosHome.js) ---------- */
+.promo-cards__meta { text-align: center; margin-bottom: var(--s-4); }
+.promo-cards {
+  display: grid; gap: var(--s-4);
+  grid-template-columns: repeat(auto-fit, minmax(260px, 420px));
+  justify-content: center;
+}
+.promo-card { display: flex; flex-direction: column; gap: var(--s-3); }
+.promo-card--teaser { border-style: dashed; }
+.promo-card__head { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-2); }
+.promo-card__tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.tag {
+  display: inline-grid; place-items: center; height: 22px; padding: 0 10px;
+  border-radius: var(--r-pill); font-size: var(--fs-xs); font-weight: var(--fw-bold);
+  background: var(--c-surface-2); border: 1px solid var(--c-line-strong); color: var(--c-text-soft);
+}
+.promo-card__title { font-size: var(--fs-md); }
+.promo-card__text { color: var(--c-text-soft); font-size: var(--fs-sm); }
+.promo-card__note { font-size: var(--fs-xs); }
+.promo-days { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: var(--s-2); }
+.promo-days li {
+  color: var(--c-text-soft); font-size: var(--fs-sm); line-height: var(--lh);
+  padding-left: var(--s-3); border-left: 2px solid var(--c-line-strong);
+}
+.promo-days li strong:first-child { color: var(--c-text); }
+.promo-card .btn { margin-top: auto; }
+
 /* ---------- SLIDER ---------- */
 .slider { position: relative; }
 .slider .slides { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; border-radius: var(--r-lg); }
