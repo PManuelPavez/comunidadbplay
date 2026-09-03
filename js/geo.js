@@ -60,6 +60,11 @@ async function reverseGeocode(lat, lon) {
   };
 }
 
+// Provincia "semilla" disponible sin esperar geolocalización (cache → host).
+export function getSeedProvince() {
+  return localStorage.getItem(KEY_PROV) || fromHost();
+}
+
 // Resuelve la provincia: cache → host → geolocalización.
 export async function detectProvince() {
   const ts = +(localStorage.getItem(KEY_TS) || 0);

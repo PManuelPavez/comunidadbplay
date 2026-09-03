@@ -63,10 +63,12 @@
       <p class="hero-microcopy">Activá tus <strong>promos</strong> en 1 toque</p>
     </section>
 
-    <!-- Banners de promo: los renderiza js/promos.js desde Supabase -->
-    <section class="container reveal">
-      <div class="promo-hero" id="promoHero" aria-label="Promociones destacadas">
-        <div class="promo-banner" aria-hidden="true" style="min-height:140px"></div>
+    <!-- Promos vigentes: js/promosHome.js elige la promo según provincia detectada + día de hoy.
+         Copy y condiciones (montos, slots, rollover) se editan ahí, sin tocar imágenes ni Supabase. -->
+    <section class="section container reveal" aria-label="Promociones vigentes">
+      <p class="promo-cards__meta muted" id="promoMeta">Buscando la promo vigente en tu zona…</p>
+      <div class="promo-cards" id="promoCards">
+        <div class="card promo-card" aria-hidden="true" style="min-height:180px"></div>
       </div>
     </section>
 
