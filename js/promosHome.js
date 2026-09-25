@@ -102,6 +102,27 @@ function fideCardHTML(prov, today, waNumber) {
     </article>`;
 }
 
+// Resumen en texto de las promos de hoy para una provincia (lo usa el bot del chat).
+// Devuelve "" si no hay datos para esa provincia.
+export function promoSummaryHTML(province) {
+  const lines = [];
+  const ftd = FTD[province];
+  if (ftd) {
+    lines.push(ftd.cash
+      ? "• <b>PROMO FTD:</b> 100% de tu depósito en EFECTIVO, hasta $8.000."
+      : "• <b>PROMO FTD:</b> se mantiene igual a los meses anteriores.");
+  }
+  const slots = FIDE_SLOTS[province];
+  if (slots) {
+    const today = new Date().getDay();
+    const terms = fideTerms(province);
+    const isToday = FIDE_DAYS.includes(today);
+    const day = isToday ? today : nextFideDay(today);
+    lines.push(`• <b>Fidelización ${isToday ? "de hoy" : DAY_NAMES[day]}:</b> depósito de $10.000 → ${terms.reward} en <b>${slots[day]}</b>. ${terms.extra}`);
+  }
+  return lines.join("\n");
+}
+
 // index.html → tarjetas de promo + texto de contexto ("Promos de hoy, Lunes, para Buenos Aires").
 export function renderHomePromos(cardsEl, metaEl, province, waNumber) {
   if (!cardsEl) return;
