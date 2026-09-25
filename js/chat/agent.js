@@ -86,7 +86,12 @@ export function initAgentConsole() {
   function appendMsg(m) {
     const div = document.createElement("div");
     div.className = `chat-msg ${m.sender === "agent" ? "visitor" : "agent"}`;
-    div.innerHTML = `${m.body}<div class="chat-msg__meta">${m.sender} · ${fmt(m.created_at)}</div>`;
+    // textContent: el cuerpo lo escribe el visitante, nunca debe interpretarse como HTML.
+    div.textContent = m.body;
+    const meta = document.createElement("div");
+    meta.className = "chat-msg__meta";
+    meta.textContent = `${m.sender} · ${fmt(m.created_at)}`;
+    div.appendChild(meta);
     threadEl.appendChild(div);
     threadEl.scrollTop = threadEl.scrollHeight;
   }

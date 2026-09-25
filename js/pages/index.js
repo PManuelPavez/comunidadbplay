@@ -2,6 +2,7 @@ import { initCommonUI, initReveal } from "../ui.js";
 import { initJurisdiction, getSeedProvince, getWhatsappNumber } from "../geo.js";
 import { WHATSAPP_FALLBACK } from "../config.js";
 import { renderHomePromos } from "../promosHome.js";
+import { renderFaq } from "../faqHome.js";
 import { initChatWidget } from "../chat/widget.js";
 
 window.addEventListener("DOMContentLoaded", async () => {
@@ -13,6 +14,7 @@ window.addEventListener("DOMContentLoaded", async () => {
 
   // Pintado inmediato con lo que ya sabemos (cache/host), sin esperar geolocalización.
   renderHomePromos(cardsEl, metaEl, getSeedProvince(), WHATSAPP_FALLBACK);
+  renderFaq(document.getElementById("faqRoot"), getSeedProvince());
   initReveal();
 
   // Una vez resuelta la provincia real (y el WhatsApp vigente), se repinta la promo.

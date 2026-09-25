@@ -61,7 +61,7 @@
 @keyframes chatIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 
 /* Opciones del bot */
-.chat-options { display: flex; flex-direction: column; gap: var(--s-2); padding: var(--s-3) var(--s-4); border-top: 1px solid var(--c-line); }
+.chat-options { display: flex; flex-direction: column; gap: var(--s-2); padding: var(--s-3) var(--s-4); border-top: 1px solid var(--c-line); max-height: 42%; overflow-y: auto; }
 .chat-options button {
   text-align: left; padding: var(--s-3); border-radius: var(--r-md);
   background: var(--c-surface-2); border: 1px solid var(--c-line); font-size: var(--fs-sm);
@@ -69,6 +69,18 @@
 }
 .chat-options button:hover { background: var(--c-surface); border-color: var(--c-green); }
 .chat-options button.primary { background: var(--g-green); color: var(--c-green-ink); border: 0; font-weight: var(--fw-bold); }
+
+/* Indicador "escribiendo…" */
+.chat-typing { display: flex; gap: 4px; padding: var(--s-3) var(--s-4); }
+.chat-typing span { width: 6px; height: 6px; border-radius: var(--r-pill); background: var(--c-text-faint); animation: chatDot 1s infinite ease-in-out; }
+.chat-typing span:nth-child(2) { animation-delay: .15s; }
+.chat-typing span:nth-child(3) { animation-delay: .3s; }
+@keyframes chatDot { 0%, 80%, 100% { opacity: .3; transform: none; } 40% { opacity: 1; transform: translateY(-3px); } }
+@media (prefers-reduced-motion: reduce) { .chat-typing span { animation: none; opacity: .6; } }
+
+/* Video embebido dentro del chat */
+.chat-msg .yt-lite { margin-top: var(--s-2); }
+.chat-msg { max-width: 88%; }
 
 /* Input de chat en vivo */
 .chat-input { display: none; gap: var(--s-2); padding: var(--s-3); border-top: 1px solid var(--c-line); background: var(--c-bg-2); }

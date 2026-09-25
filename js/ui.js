@@ -4,6 +4,11 @@
 // portapapeles y FAB de contacto.
 // =========================================================
 
+// Escapa texto de usuario antes de meterlo con innerHTML.
+export function escapeHTML(s = "") {
+  return String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+
 export function initMobileMenu() {
   const body = document.body;
   const toggle = document.querySelector(".nav-toggle");

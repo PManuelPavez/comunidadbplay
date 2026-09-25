@@ -7,10 +7,18 @@
 // =========================================================
 import { db } from "../supabase.js";
 import { waLink } from "../config.js";
-import { buildFlow } from "./flow.js";
-import { applyDynamicWhatsapp, getWhatsappNumber } from "../geo.js";
+import { buildFlow, routeText } from "./flow.js";
+import { applyDynamicWhatsapp, getWhatsappNumber, getSeedProvince } from "../geo.js";
+import { escapeHTML } from "../ui.js";
+import { initVideoEmbeds } from "../videos.js";
 
 const STORE_CONVO = "bp.convo";
+
+// Tema de "Problemas comunes" (home) → paso del bot.
+const TOPIC_STEP = {
+  registro: "prob_registro", deposito: "post_deposito", retiro: "retiros",
+  validacion: "prob_validacion", codigo: "prob_codigo", autoexclusion: "prob_autoexclusion", ayuda: "problemas",
+};
 
 export function initChatWidget() {
   const flow = buildFlow();
@@ -18,6 +26,7 @@ export function initChatWidget() {
   let convoId = null;
   let channel = null;
   let waNumber = null;
+  let lastTopic = "";
 
   // ---- DOM ----
   const root = document.createElement("div");
@@ -36,8 +45,8 @@ export function initChatWidget() {
       </header>
       <div class="chat-body" id="chatBody"></div>
       <div class="chat-options" id="chatOptions"></div>
-      <form class="chat-input" id="chatInput" autocomplete="off">
-        <input id="chatField" placeholder="Escribí tu mensaje…" aria-label="Mensaje">
+      <form class="chat-input show" id="chatInput" autocomplete="off">
+        <input id="chatField" placeholder="Escribí tu consulta…" aria-label="Mensaje" maxlength="500">
         <button type="submit" aria-label="Enviar">➤</button>
       </form>
     </section>`;
@@ -48,13 +57,28 @@ export function initChatWidget() {
   const inputForm = $("#chatInput"), field = $("#chatField"), statusEl = $("#chatStatus");
   const badge = $("#chatBadge");
 
+  initVideoEmbeds();
+  const ctx = () => ({ province: localStorage.getItem("bp.province") || getSeedProvince() });
+
   // ---- helpers UI ----
+  // `html` solo para contenido propio del bot; todo texto escrito por personas va por addText().
   function addMessage(html, sender) {
     const div = document.createElement("div");
     div.className = `chat-msg ${sender}`;
     div.innerHTML = html;
     body.appendChild(div);
     body.scrollTop = body.scrollHeight;
+  }
+  function addText(text, sender) { addMessage(escapeHTML(text), sender); }
+
+  function showTyping() {
+    const el = document.createElement("div");
+    el.className = "chat-msg bot chat-typing";
+    el.setAttribute("aria-label", "El asistente está escribiendo");
+    el.innerHTML = "<span></span><span></span><span></span>";
+    body.appendChild(el);
+    body.scrollTop = body.scrollHeight;
+    return el;
   }
   function renderOptions(options) {
     optionsBox.innerHTML = "";
@@ -70,10 +94,16 @@ export function initChatWidget() {
   function goToStep(stepId) {
     const step = flow[stepId];
     if (!step) return;
-    setTimeout(() => { addMessage(step.html, "bot"); renderOptions(step.options); }, 220);
+    optionsBox.style.display = "none";
+    const typing = showTyping();
+    setTimeout(() => {
+      typing.remove();
+      addMessage(typeof step.html === "function" ? step.html(ctx()) : step.html, "bot");
+      renderOptions(step.options);
+    }, 450);
   }
   function handleOption(opt) {
-    addMessage(opt.label, "visitor");
+    addText(opt.label, "visitor");
     if (opt.action === "human") return escalateToHuman();
     if (opt.action === "whatsapp") return goWhatsApp();
     goToStep(opt.next);
@@ -106,7 +136,7 @@ export function initChatWidget() {
       statusEl.classList.add("online");
       inputForm.classList.add("show");
       addMessage("¡Listo! Dejá tu consulta y un agente te responde acá mismo. 💬", "agent");
-      await sendMessage("Hola, vengo del asistente y quiero hablar con una persona.", "visitor", true);
+      await sendMessage(`Hola, vengo del asistente y quiero hablar con una persona.${lastTopic ? ` (Tema: ${lastTopic})` : ""}`, "visitor", true);
       subscribe();
     } catch (e) {
       console.warn("chat: backend no disponible, derivo a WhatsApp", e?.message);
@@ -122,14 +152,14 @@ export function initChatWidget() {
         (payload) => {
           const m = payload.new;
           if (m.sender === "visitor") return; // ya lo mostramos al enviar
-          addMessage(m.body, m.sender === "agent" ? "agent" : "bot");
+          addText(m.body, m.sender === "agent" ? "agent" : "bot");
           if (!panel.classList.contains("open")) showBadge();
         })
       .subscribe();
   }
 
   async function sendMessage(bodyText, sender = "visitor", silent = false) {
-    if (!silent) addMessage(bodyText, sender);
+    if (!silent) addText(bodyText, sender);
     if (!convoId) return;
     await db.from("chat_messages").insert({ conversation_id: convoId, sender, body: bodyText });
     await db.from("chat_conversations").update({ last_at: new Date().toISOString() }).eq("id", convoId);
@@ -140,16 +170,58 @@ export function initChatWidget() {
     const txt = field.value.trim();
     if (!txt) return;
     field.value = "";
-    sendMessage(txt, "visitor");
+    if (mode === "live") return sendMessage(txt, "visitor");
+    // Modo bot: enruta el texto libre por palabras clave.
+    addText(txt, "visitor");
+    lastTopic = txt.slice(0, 80);
+    const route = routeText(txt);
+    if (route.action === "human") return escalateToHuman();
+    goToStep(route.next);
   });
+
+  // Retoma una conversación en vivo abierta antes de recargar la página.
+  async function resumeConvo() {
+    const id = localStorage.getItem(STORE_CONVO);
+    if (!id) return false;
+    try {
+      const { data: c } = await db.from("chat_conversations").select("id,status").eq("id", id).maybeSingle();
+      if (!c || c.status === "closed") { localStorage.removeItem(STORE_CONVO); return false; }
+      const { data: msgs, error } = await db.from("chat_messages")
+        .select("sender,body").eq("conversation_id", id).order("created_at", { ascending: true });
+      if (error) throw error;
+      convoId = id; mode = "live";
+      statusEl.textContent = "Conectado con soporte";
+      statusEl.classList.add("online");
+      optionsBox.style.display = "none";
+      (msgs || []).forEach((m) => addText(m.body, m.sender === "agent" ? "agent" : "visitor"));
+      subscribe();
+      return true;
+    } catch { localStorage.removeItem(STORE_CONVO); return false; }
+  }
 
   // ---- open / close ----
   function showBadge() { badge.classList.add("show"); }
-  function open() { panel.classList.add("open"); badge.classList.remove("show"); if (!body.childElementCount) goToStep("start"); }
+  async function open(step) {
+    panel.classList.add("open"); badge.classList.remove("show");
+    if (!body.childElementCount) {
+      if (!(await resumeConvo())) goToStep(step || "start");
+    } else if (step && mode === "bot") {
+      goToStep(step);
+    }
+    if (mode === "bot") field.focus({ preventScroll: true });
+  }
   function close() { panel.classList.remove("open"); }
 
   $("#chatLauncher").addEventListener("click", () => panel.classList.contains("open") ? close() : open());
   $("#chatClose").addEventListener("click", close);
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && panel.classList.contains("open")) close(); });
+
+  // Desde "Problemas comunes" (home): abre el chat directo en el tema elegido.
+  window.addEventListener("bp:open-chat", (e) => {
+    const step = TOPIC_STEP[e.detail?.step];
+    if (step) lastTopic = e.detail.step;
+    open(step);
+  });
 
   // refresca el número visible de WhatsApp del sitio
   applyDynamicWhatsapp().then((n) => (waNumber = n));
