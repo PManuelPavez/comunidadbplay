@@ -111,7 +111,11 @@ export async function applyDynamicWhatsapp() {
   });
   document.querySelectorAll('a[href^="tel:"]').forEach((a) => { a.href = `tel:+${num}`; });
   document.querySelectorAll('[data-role="wpp-visible-num"]').forEach((el) => {
-    el.textContent = num.replace(/^549?/, "").replace(/^(\d{3})(\d+)/, "$1 $2");
+    const local = num.replace(/^549?/, "");
+    // Línea de CABA/GBA (11 + 8 dígitos) → "11 7184-5577"; el resto conserva el formato previo.
+    el.textContent = /^11\d{8}$/.test(local)
+      ? local.replace(/^(11)(\d{4})(\d{4})$/, "$1 $2-$3")
+      : local.replace(/^(\d{3})(\d+)/, "$1 $2");
   });
   return num;
 }

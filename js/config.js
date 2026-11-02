@@ -6,7 +6,7 @@
 // =========================================================
 
 // Fallback si Supabase no responde (solo dígitos, formato 549...).
-export const WHATSAPP_FALLBACK = "5492617490475";
+export const WHATSAPP_FALLBACK = "5491171845577";
 
 export const CHANNEL_URL = "https://whatsapp.com/channel/0029Vb3o9ai77qVPdzOk0w3o";
 export const EMAIL = "atencionbplayperg@gmail.com";
