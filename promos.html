@@ -49,16 +49,11 @@
     </nav>
   </header>
 
-  <main class="container narrow">
+  <main class="container">
     <h1 class="page-title">Promociones <span class="badge badge-gold">VIP</span></h1>
 
-    <!-- Slider + panel: los renderiza js/promos.js desde Supabase -->
-    <div class="slider" id="promoSlider" data-slider>
-      <div class="slides"></div>
-      <div class="dots"></div>
-    </div>
-
-    <section class="stack" id="promoInfo" aria-live="polite" style="margin-top:var(--s-5)"></section>
+    <!-- Promos del mes: js/promosHome.js (datos + placas en media/promos/<mes>/). Sin Supabase. -->
+    <section id="vipRoot" aria-label="Promociones vigentes"></section>
   </main>
 
   <footer class="bp-footer" role="contentinfo">

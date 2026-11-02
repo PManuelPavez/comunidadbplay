@@ -1,13 +1,12 @@
 // =========================================================
-// PROMOS HOME — arma la(s) tarjeta(s) de promo del index según
-// la provincia detectada (ver geo.js) y el día de hoy. Para
-// actualizar montos, slots o condiciones se edita este archivo:
-// no depende de imágenes ni de la tabla `promos` de Supabase.
+// PROMOS HOME — arma las tarjetas de promo del index según la
+// provincia detectada (ver geo.js) y el día de hoy. Cada mes se
+// actualiza editando FIDE / DEPOSITOS acá y subiendo las placas
+// (webp) a media/promos/<mes>/: no depende de la tabla `promos`.
 // =========================================================
 import { waLink } from "./config.js";
 
 const DAY_NAMES = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
-const FIDE_DAYS = [1, 3, 5]; // Lunes, Miércoles, Viernes
 
 const PROV_LABEL = {
   "BUENOS AIRES": "Buenos Aires",
@@ -17,6 +16,8 @@ const PROV_LABEL = {
   "SANTA FE": "Santa Fe",
 };
 
+const IMG_DIR = "media/promos/nov/";   // placas de noviembre (full: <img>.webp · miniatura: <img>-sm.webp)
+
 // PROMO FTD — no depende del día, solo de la provincia.
 const FTD = {
   "BUENOS AIRES": { tag: "PBA", cash: true },
@@ -25,22 +26,54 @@ const FTD = {
   "MENDOZA":      { tag: "MZA", cash: false },
 };
 
-// Fidelización lunes / miércoles / viernes — slot vigente por provincia y día.
-const FIDE_SLOTS = {
-  "BUENOS AIRES": { 1: "BIG CIRCUS MEGA FIRE BLAZE", 3: "RED WIZARD FIRE BLAZE CLASSICS", 5: "PHARAOHS DAUGHTER FIRE BLAZE" },
-  "CABA":         { 1: "CORONADOS DE GLORIA MEGAWAYS", 3: "CASH VOLT", 5: "EXTRA CHILLI" },
-  "CORDOBA":      { 1: "CORONADOS DE GLORIA MEGAWAYS", 3: "CASH VOLT", 5: "EXTRA CHILLI" },
-  "MENDOZA":      { 1: "CORONADOS DE GLORIA MEGAWAYS", 3: "CASH VOLT", 5: "EXTRA CHILLI" },
+// Fidelización — por provincia y día de la semana (1 = lunes, 3 = miércoles, 5 = viernes).
+// Si una provincia no tiene promo un día, simplemente no figura ese día.
+const STD_EXTRA = "Rollover x60, máximo conversión $50.000, duración 24hs.";
+const std = (slot, img) => ({ deposit: "$10.000", reward: "200 tiros", slot, extra: STD_EXTRA, img, h: 427 });
+const mza = (slot, img) => ({ deposit: "$10.000", reward: "25 tiros en EFECTIVO", slot, extra: "Sin rollover.", img, h: 427 });
+const CABA_COR = {
+  1: std("CORONADOS DE GLORIA MEGAWAYS", "caba-cor-lunes"),
+  3: std("CASH VOLT", "caba-cor-miercoles"),
+  5: std("EXTRA CHILLI", "caba-cor-viernes"),
+};
+const FIDE = {
+  "BUENOS AIRES": {
+    1: std("TROPHY FISH", "pba-lunes"),
+    3: std("JACKPOT TRAIN", "pba-miercoles"),
+    5: std("CAKE & ICE CREAM", "pba-viernes"),
+  },
+  "CABA": CABA_COR,
+  "CORDOBA": CABA_COR,
+  "MENDOZA": {
+    1: mza("CORONADOS DE GLORIA MEGAWAYS", "mza-lunes"),
+    3: mza("CASH VOLT", "mza-miercoles"),
+    5: mza("EXTRA CHILLI", "mza-viernes"),
+  },
+  "SANTA FE": {
+    3: { deposit: "$10.000", reward: "100 tiros", slot: "PHOENIX REIGN", extra: "Rollover x60.", img: "sfe-miercoles", h: 300 },
+    5: { deposit: "$20.000", reward: "300 tiros", slot: "FIRE AND ROSES JOKER", extra: "Rollover x60.", img: "sfe-viernes", h: 300 },
+  },
 };
 
-function fideTerms(prov) {
-  if (prov === "MENDOZA") return { reward: "25 tiros en EFECTIVO", extra: "Sin rollover." };
-  return { reward: "200 tiros", extra: "Rollover x60, máximo conversión $50.000, duración 24hs." };
-}
+// 2º, 3º y 4º depósito — placas tal cual las diseñó marketing (alt = texto de la placa).
+// Cada depósito tiene dos opciones según el monto.
+const DEPOSITOS = [
+  { n: 2, plates: [
+    { img: "dep2-4000", alt: "2º depósito: depositá $4.000 y te llevás 30 giros gratis en 777 Strike más $1.500 en apuestas gratis para fútbol" },
+    { img: "dep2-6000", alt: "2º depósito: depositá $6.000 y te llevás 200% en bonos para casino más $2.000 en apuestas gratis para fútbol" },
+  ] },
+  { n: 3, plates: [
+    { img: "dep3-6000", alt: "3º depósito: depositá $6.000 y te llevás 30 giros gratis en Thor's Rage más $1.500 en apuestas gratis para fútbol" },
+    { img: "dep3-8000", alt: "3º depósito: depositá $8.000 y te llevás 200% en bonos para casino más $2.000 en apuestas gratis para fútbol" },
+  ] },
+  { n: 4, plates: [
+    { img: "dep4-8000",  alt: "4º depósito: depositá $8.000 y te llevás 30 giros gratis en Diamond Doggies más $1.500 en apuestas gratis para fútbol" },
+    { img: "dep4-10000", alt: "4º depósito: depositá $10.000 y te llevás 200% en bonos para casino más $2.000 en apuestas gratis para fútbol" },
+  ] },
+];
 
-function nextFideDay(today) {
-  return FIDE_DAYS.find((d) => d > today) ?? FIDE_DAYS[0];
-}
+const fideDays = (prov) => Object.keys(FIDE[prov] || {}).map(Number).sort((x, y) => x - y);
+const nextFideDay = (prov, today) => { const d = fideDays(prov); return d.find((x) => x > today) ?? d[0]; };
 
 function ftdCardHTML(prov, waNumber) {
   const data = FTD[prov];
@@ -72,33 +105,58 @@ function ftdCardHTML(prov, waNumber) {
     </article>`;
 }
 
-function fideCardHTML(prov, today, waNumber) {
-  const slots = FIDE_SLOTS[prov];
-  if (!slots) return "";
-  const terms = fideTerms(prov);
+function thumbHTML(p, label) {
+  return `<a class="promo-card__thumb" href="${IMG_DIR}${p.img}.webp" target="_blank" rel="noopener" aria-label="Ver la placa completa: ${label}">
+      <img src="${IMG_DIR}${p.img}-sm.webp" alt="Placa de la promo: ${label}" width="240" height="${p.h}" loading="lazy" decoding="async">
+    </a>`;
+}
 
-  if (FIDE_DAYS.includes(today)) {
-    const slot = slots[today];
-    const dayName = DAY_NAMES[today];
-    return `
-      <article class="card promo-card">
-        <div class="promo-card__head"><span class="badge badge-gold">FIDELIZACIÓN · HOY ${dayName.toUpperCase()}</span></div>
-        <h3 class="promo-card__title">${terms.reward} por depósito de $10.000</h3>
-        <p class="promo-card__text">Depósito de <strong>$10.000</strong>, recibís ${terms.reward} en <strong>${slot}</strong>. ${terms.extra}</p>
-        <a class="btn btn-wpp btn-full" target="_blank" rel="noopener"
-           href="${waLink(waNumber, `Hola, quiero activar la promo de fidelización de hoy (${slot})`)}">Activar por WhatsApp</a>
-      </article>`;
-  }
-
-  const nd = nextFideDay(today);
-  const slot = slots[nd];
+// kind: "today" (promo de hoy) · "next" (teaser de la próxima) · "day" (listado de la semana)
+function fideDayCardHTML(prov, day, kind, waNumber) {
+  const p = FIDE[prov][day];
+  const dn = DAY_NAMES[day];
+  const label = `${p.reward} en ${p.slot}`;
+  const badge = kind === "today" ? `FIDELIZACIÓN · HOY ${dn.toUpperCase()}`
+    : kind === "next" ? "PRÓXIMA FIDELIZACIÓN" : `FIDELIZACIÓN · ${dn.toUpperCase()}`;
+  const title = kind === "today" ? `${p.reward} por depósito de ${p.deposit}` : `${dn}: ${p.reward} en ${p.slot}`;
+  const msg = kind === "today"
+    ? `Hola, quiero activar la promo de fidelización de hoy (${p.slot})`
+    : `Hola, quiero ${kind === "next" ? "más info de" : "activar"} la promo de fidelización del ${dn} (${p.slot})`;
   return `
-    <article class="card promo-card promo-card--teaser">
-      <div class="promo-card__head"><span class="badge badge-gold">PRÓXIMA FIDELIZACIÓN</span></div>
-      <h3 class="promo-card__title">${DAY_NAMES[nd]}: ${terms.reward} en ${slot}</h3>
-      <p class="promo-card__text">Depósito de <strong>$10.000</strong> y recibís ${terms.reward} en <strong>${slot}</strong>. ${terms.extra}</p>
-      <a class="btn btn-wpp btn-full" target="_blank" rel="noopener"
-         href="${waLink(waNumber, `Hola, quiero más info de la promo de fidelización del ${DAY_NAMES[nd]}`)}">Consultar por WhatsApp</a>
+    <article class="card promo-card promo-card--media${kind === "next" ? " promo-card--teaser" : ""}">
+      ${thumbHTML(p, label)}
+      <div class="promo-card__body">
+        <div class="promo-card__head"><span class="badge badge-gold">${badge}</span></div>
+        <h3 class="promo-card__title">${title}</h3>
+        <p class="promo-card__text">Depósito de <strong>${p.deposit}</strong>, recibís ${p.reward} en el slot <strong>${p.slot}</strong>. ${p.extra}</p>
+        <a class="btn btn-wpp btn-full" target="_blank" rel="noopener" href="${waLink(waNumber, msg)}">${kind === "next" ? "Consultar por WhatsApp" : "Activar por WhatsApp"}</a>
+      </div>
+    </article>`;
+}
+
+function fideCardHTML(prov, today, waNumber) {
+  if (!FIDE[prov]) return "";
+  const isToday = !!FIDE[prov][today];
+  return fideDayCardHTML(prov, isToday ? today : nextFideDay(prov, today), isToday ? "today" : "next", waNumber);
+}
+
+function depositosCardHTML(waNumber) {
+  const groups = DEPOSITOS.map((g) => `
+      <section class="promo-dep" aria-label="Promo del ${g.n}º depósito">
+        <h4 class="promo-dep__title"><span class="promo-dep__num">${g.n}º</span> depósito</h4>
+        ${g.plates.map((d) => `
+        <a href="${IMG_DIR}${d.img}.webp" target="_blank" rel="noopener">
+          <img src="${IMG_DIR}${d.img}.webp" alt="${d.alt}" width="600" height="300" loading="lazy" decoding="async">
+        </a>`).join("")}
+        <a class="btn btn-wpp btn-sm btn-full" target="_blank" rel="noopener"
+           href="${waLink(waNumber, `Hola, quiero activar la promo del ${g.n}º depósito`)}">Activar ${g.n}º depósito</a>
+      </section>`).join("");
+  return `
+    <article class="card promo-card promo-card--wide">
+      <div class="promo-card__head"><span class="badge badge-green">2º · 3º · 4º DEPÓSITO</span></div>
+      <h3 class="promo-card__title">Seguí depositando y seguí ganando</h3>
+      <p class="promo-card__text">Cada depósito tiene su propio bono: elegí el monto y activalo con soporte.</p>
+      <div class="promo-deposits">${groups}</div>
     </article>`;
 }
 
@@ -112,14 +170,14 @@ export function promoSummaryHTML(province) {
       ? "• <b>PROMO FTD:</b> 100% de tu depósito en EFECTIVO, hasta $8.000."
       : "• <b>PROMO FTD:</b> se mantiene igual a los meses anteriores.");
   }
-  const slots = FIDE_SLOTS[province];
-  if (slots) {
+  if (FIDE[province]) {
     const today = new Date().getDay();
-    const terms = fideTerms(province);
-    const isToday = FIDE_DAYS.includes(today);
-    const day = isToday ? today : nextFideDay(today);
-    lines.push(`• <b>Fidelización ${isToday ? "de hoy" : DAY_NAMES[day]}:</b> depósito de $10.000 → ${terms.reward} en <b>${slots[day]}</b>. ${terms.extra}`);
+    const isToday = !!FIDE[province][today];
+    const day = isToday ? today : nextFideDay(province, today);
+    const p = FIDE[province][day];
+    lines.push(`• <b>Fidelización ${isToday ? "de hoy" : DAY_NAMES[day]}:</b> depósito de ${p.deposit} → ${p.reward} en <b>${p.slot}</b>. ${p.extra}`);
   }
+  if (lines.length) lines.push("• <b>2º, 3º y 4º depósito:</b> giros o bono de casino + apuestas gratis de fútbol. Pedinos el detalle.");
   return lines.join("\n");
 }
 
@@ -127,10 +185,66 @@ export function promoSummaryHTML(province) {
 export function renderHomePromos(cardsEl, metaEl, province, waNumber) {
   if (!cardsEl) return;
   const today = new Date().getDay();
-  cardsEl.innerHTML = ftdCardHTML(province, waNumber) + fideCardHTML(province, today, waNumber);
+  cardsEl.innerHTML = ftdCardHTML(province, waNumber) + fideCardHTML(province, today, waNumber) + depositosCardHTML(waNumber);
   if (metaEl) {
     metaEl.textContent = province
       ? `Promos de hoy, ${DAY_NAMES[today]}, para ${PROV_LABEL[province] || province}.`
       : "Escribinos por WhatsApp y te contamos la promo vigente en tu zona.";
   }
+}
+
+// ---------------------------------------------------------
+// promos.html (Promos VIP) — todas las promos del mes, con
+// selector de provincia. 100% front: mismos datos que el home.
+// ---------------------------------------------------------
+const MONTH_LABEL = "Noviembre";
+const PROV_ORDER = ["BUENOS AIRES", "CABA", "CORDOBA", "MENDOZA", "SANTA FE"];
+
+function vipContentHTML(prov, waNumber) {
+  const today = new Date().getDay();
+  const days = fideDays(prov);
+  const dayCards = days.map((d) => fideDayCardHTML(prov, d, d === today ? "today" : "day", waNumber)).join("");
+  return `
+    <div class="promo-cards">
+      ${ftdCardHTML(prov, waNumber)}
+      ${dayCards ? `<h2 class="promo-section-title">Fidelización semanal <span class="muted">· ${days.map((d) => DAY_NAMES[d].toLowerCase()).join(", ")}</span></h2>${dayCards}` : ""}
+      ${depositosCardHTML(waNumber)}
+    </div>`;
+}
+
+// Devuelve { update(provincia, whatsapp) } para refinar cuando termina la geolocalización
+// (sin pisar la provincia si la persona ya eligió una a mano).
+export function renderVipPromos(root, province, waNumber) {
+  if (!root) return { update() {} };
+  const state = { prov: PROV_LABEL[province] ? province : null, wa: waNumber, picked: false };
+  root.innerHTML = `
+    <p class="promo-cards__meta muted" id="vipMeta"></p>
+    <div class="pill-tabs" role="group" aria-label="Elegí tu provincia">
+      ${PROV_ORDER.map((k) => `<button type="button" class="pill-tab" data-prov="${k}">${PROV_LABEL[k]}</button>`).join("")}
+    </div>
+    <div id="vipContent" aria-live="polite"></div>`;
+  const tabs = Array.from(root.querySelectorAll(".pill-tab"));
+  const meta = root.querySelector("#vipMeta");
+  const content = root.querySelector("#vipContent");
+
+  function draw() {
+    tabs.forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.prov === state.prov)));
+    meta.textContent = state.prov
+      ? `Promos de ${MONTH_LABEL} para ${PROV_LABEL[state.prov]}. Hoy es ${DAY_NAMES[new Date().getDay()]}.`
+      : "Elegí tu provincia para ver las promos vigentes.";
+    content.innerHTML = state.prov ? vipContentHTML(state.prov, state.wa) : "";
+  }
+  root.addEventListener("click", (e) => {
+    const b = e.target.closest(".pill-tab");
+    if (!b) return;
+    state.prov = b.dataset.prov; state.picked = true; draw();
+  });
+  draw();
+  return {
+    update(prov, wa) {
+      if (wa) state.wa = wa;
+      if (!state.picked && PROV_LABEL[prov]) state.prov = prov;
+      draw();
+    },
+  };
 }

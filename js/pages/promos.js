@@ -1,28 +1,17 @@
-import { initCommonUI, initReveal, initSlider } from "../ui.js";
-import { initJurisdiction, getWhatsappNumber } from "../geo.js";
-import { renderPromosPage } from "../promos.js";
+import { initCommonUI, initReveal } from "../ui.js";
+import { initJurisdiction, getSeedProvince, getWhatsappNumber } from "../geo.js";
+import { WHATSAPP_FALLBACK } from "../config.js";
+import { renderVipPromos } from "../promosHome.js";
 import { initChatWidget } from "../chat/widget.js";
 
 window.addEventListener("DOMContentLoaded", async () => {
   initCommonUI();
   initChatWidget();
 
-  const wa = await getWhatsappNumber();
-  const slider = document.getElementById("promoSlider");
-  const info = document.getElementById("promoInfo");
-  await renderPromosPage(slider, info, wa);
-
-  initSlider(slider);
-
-  // Sincroniza el panel de detalle con el slide visible.
-  const slidesBox = slider.querySelector(".slides");
-  const details = Array.from(info.querySelectorAll(".promo-detail"));
-  const sync = () => {
-    const i = Math.round(slidesBox.scrollLeft / slidesBox.clientWidth);
-    details.forEach((d, j) => d.classList.toggle("is-active", j === i));
-  };
-  slidesBox.addEventListener("scroll", () => requestAnimationFrame(sync), { passive: true });
-
+  const vip = renderVipPromos(document.getElementById("vipRoot"), getSeedProvince(), WHATSAPP_FALLBACK);
   initReveal();
-  initJurisdiction();
+
+  // Una vez resuelta la provincia real y el WhatsApp vigente, se refina (sin pisar una elección manual).
+  const [prov, wa] = await Promise.all([initJurisdiction(), getWhatsappNumber()]);
+  vip.update(prov, wa);
 });
